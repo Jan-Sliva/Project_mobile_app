@@ -2,6 +2,7 @@
 {
     public class GamePassword : DbBase
     {
+#nullable disable
         public string Password { get; set; }
 
         public bool UseRegex { get; set; }

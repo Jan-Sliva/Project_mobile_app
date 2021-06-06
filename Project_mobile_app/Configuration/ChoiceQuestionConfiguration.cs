@@ -8,7 +8,7 @@ namespace Project_mobile_app.Configuration
     {
         public void Configure(EntityTypeBuilder<ChoiceQuestion> builder)
         {
-            builder.HasMany(cq => cq.Choices).WithOne(c => c.Question).OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(cq => cq.Choices).WithOne(c => c.Question);
 
         }
     }

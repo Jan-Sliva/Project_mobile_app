@@ -34,36 +34,6 @@ namespace Project_mobile_app.Migrations
                     b.ToTable("ChoiceMapPosition");
                 });
 
-            modelBuilder.Entity("ChoiceQuestion", b =>
-                {
-                    b.Property<int>("ChoicesThatOpensThisId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OpensQuestionsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChoicesThatOpensThisId", "OpensQuestionsId");
-
-                    b.HasIndex("OpensQuestionsId");
-
-                    b.ToTable("ChoiceQuestion");
-                });
-
-            modelBuilder.Entity("ChoiceStop", b =>
-                {
-                    b.Property<int>("ChoicesThatOpenThisId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OpensStopsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ChoicesThatOpenThisId", "OpensStopsId");
-
-                    b.HasIndex("OpensStopsId");
-
-                    b.ToTable("ChoiceStop");
-                });
-
             modelBuilder.Entity("GameUser", b =>
                 {
                     b.Property<int>("GamesId")
@@ -79,6 +49,36 @@ namespace Project_mobile_app.Migrations
                     b.ToTable("GameUser");
                 });
 
+            modelBuilder.Entity("MapPositionStop", b =>
+                {
+                    b.Property<int>("PositionsDisplayAfterDisplayId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StopDisplayAfterDisplayId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PositionsDisplayAfterDisplayId", "StopDisplayAfterDisplayId");
+
+                    b.HasIndex("StopDisplayAfterDisplayId");
+
+                    b.ToTable("MapPositionStop");
+                });
+
+            modelBuilder.Entity("MapPositionStop1", b =>
+                {
+                    b.Property<int>("PositionsDisplayAfterUnlockId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StopDisplayAfterUnlockId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PositionsDisplayAfterUnlockId", "StopDisplayAfterUnlockId");
+
+                    b.HasIndex("StopDisplayAfterUnlockId");
+
+                    b.ToTable("MapPositionStop1");
+                });
+
             modelBuilder.Entity("Project_mobile_app.Models.Admin", b =>
                 {
                     b.Property<int>("Id")
@@ -87,17 +87,23 @@ namespace Project_mobile_app.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Admin");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.Choice", b =>
@@ -118,6 +124,40 @@ namespace Project_mobile_app.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Choice");
                 });
 
+            modelBuilder.Entity("Project_mobile_app.Models.ChoiceStop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChoiceOpensThisId")
+                        .HasColumnType("int");
+
+                    b.Property<byte>("IfUnlocked")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("IfUnvisible")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("IfVisible")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("OpensId")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Value")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChoiceOpensThisId");
+
+                    b.HasIndex("OpensId");
+
+                    b.ToTable("ChoiceStop");
+                });
+
             modelBuilder.Entity("Project_mobile_app.Models.DisplayObject", b =>
                 {
                     b.Property<int>("Id")
@@ -136,13 +176,15 @@ namespace Project_mobile_app.Migrations
                         .HasColumnType("smallint");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IntroductionId");
 
-                    b.ToTable("DisplayObjects");
+                    b.ToTable("DisplayObject");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("DisplayObject");
                 });
@@ -155,7 +197,7 @@ namespace Project_mobile_app.Migrations
                     b.Property<int>("DisplayObjectId")
                         .HasColumnType("int");
 
-                    b.Property<short?>("Position")
+                    b.Property<short>("Position")
                         .HasColumnType("smallint");
 
                     b.HasKey("StopId", "DisplayObjectId");
@@ -173,7 +215,7 @@ namespace Project_mobile_app.Migrations
                     b.Property<int>("DisplayObjectId")
                         .HasColumnType("int");
 
-                    b.Property<short?>("Position")
+                    b.Property<short>("Position")
                         .HasColumnType("smallint");
 
                     b.HasKey("StopId", "DisplayObjectId");
@@ -191,16 +233,20 @@ namespace Project_mobile_app.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<DateTime?>("Limit")
-                        .HasColumnType("datetime2");
+                    b.Property<short?>("Limit")
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("PlayingTime")
-                        .HasColumnType("datetime2");
+                    b.Property<short?>("PlayingTime")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
@@ -218,9 +264,11 @@ namespace Project_mobile_app.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PasswordGameRequirementId")
+                    b.Property<int>("PasswordGameRequirementId")
                         .HasColumnType("int");
 
                     b.Property<bool>("UseRegex")
@@ -230,7 +278,7 @@ namespace Project_mobile_app.Migrations
 
                     b.HasIndex("PasswordGameRequirementId");
 
-                    b.ToTable("GamePassword");
+                    b.ToTable("GamePasswords");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.Introduction", b =>
@@ -244,7 +292,9 @@ namespace Project_mobile_app.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 
@@ -262,22 +312,20 @@ namespace Project_mobile_app.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<int?>("IntroductionId")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("IsVisibleAsStopPosition")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("PositionOfStopId")
                         .HasColumnType("int");
 
                     b.Property<double>("Radius")
                         .HasColumnType("float");
-
-                    b.Property<int?>("StopDisplayAfterDisplayId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StopDisplayAfterUnlockId")
-                        .HasColumnType("int");
 
                     b.Property<double>("X")
                         .HasColumnType("float");
@@ -293,10 +341,6 @@ namespace Project_mobile_app.Migrations
                         .IsUnique()
                         .HasFilter("[PositionOfStopId] IS NOT NULL");
 
-                    b.HasIndex("StopDisplayAfterDisplayId");
-
-                    b.HasIndex("StopDisplayAfterUnlockId");
-
                     b.ToTable("MapPositions");
                 });
 
@@ -308,9 +352,11 @@ namespace Project_mobile_app.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Question")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("StopId")
+                    b.Property<int>("StopId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -332,7 +378,9 @@ namespace Project_mobile_app.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuestionText")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
 
@@ -354,8 +402,8 @@ namespace Project_mobile_app.Migrations
                     b.Property<short>("SuccesfullGames")
                         .HasColumnType("smallint");
 
-                    b.Property<DateTime>("TimeInGames")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("TimeInGames")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -375,26 +423,71 @@ namespace Project_mobile_app.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("GameFirstStopId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsFinal")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsInitial")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("PartOfGameId")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("PartOfGameId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<short?>("State1Requirement")
+                        .HasColumnType("smallint");
 
-                    b.HasIndex("GameFirstStopId")
-                        .IsUnique();
+                    b.Property<short?>("State2Requirement")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("State3Requirement")
+                        .HasColumnType("smallint");
+
+                    b.Property<short?>("State4Requirement")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("PartOfGameId");
 
                     b.ToTable("Stop");
+                });
+
+            modelBuilder.Entity("Project_mobile_app.Models.StopStop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte>("IfUnlocked")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("IfUnvisible")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("IfVisible")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("OpensId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StopOpensThisId")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Value")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OpensId");
+
+                    b.HasIndex("StopOpensThisId");
+
+                    b.ToTable("StopStop");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.User", b =>
@@ -405,17 +498,38 @@ namespace Project_mobile_app.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("QuestionChoice", b =>
+                {
+                    b.Property<int>("ChoicesThatOpensThisId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OpensQuestionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ChoicesThatOpensThisId", "OpensQuestionsId");
+
+                    b.HasIndex("OpensQuestionsId");
+
+                    b.ToTable("QuestionChoice");
                 });
 
             modelBuilder.Entity("QuestionStop", b =>
@@ -433,21 +547,6 @@ namespace Project_mobile_app.Migrations
                     b.ToTable("QuestionStop");
                 });
 
-            modelBuilder.Entity("StopStop", b =>
-                {
-                    b.Property<int>("OpensId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StopsThatOpenThisId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OpensId", "StopsThatOpenThisId");
-
-                    b.HasIndex("StopsThatOpenThisId");
-
-                    b.ToTable("StopStop");
-                });
-
             modelBuilder.Entity("Project_mobile_app.Models.ChoiceForChoiceQuestion", b =>
                 {
                     b.HasBaseType("Project_mobile_app.Models.Choice");
@@ -456,7 +555,9 @@ namespace Project_mobile_app.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasIndex("QuestionId");
 
@@ -475,7 +576,9 @@ namespace Project_mobile_app.Migrations
                         .HasColumnName("ChoiceForTextQuestion_QuestionId");
 
                     b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("ChoiceForTextQuestion_Text");
 
                     b.Property<bool>("UseRegex")
@@ -506,6 +609,7 @@ namespace Project_mobile_app.Migrations
                     b.HasBaseType("Project_mobile_app.Models.DisplayObject");
 
                     b.Property<byte[]>("Image")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.HasDiscriminator().HasValue("Picture");
@@ -516,6 +620,7 @@ namespace Project_mobile_app.Migrations
                     b.HasBaseType("Project_mobile_app.Models.DisplayObject");
 
                     b.Property<string>("OwnText")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("Text");
@@ -550,36 +655,6 @@ namespace Project_mobile_app.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ChoiceQuestion", b =>
-                {
-                    b.HasOne("Project_mobile_app.Models.Choice", null)
-                        .WithMany()
-                        .HasForeignKey("ChoicesThatOpensThisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project_mobile_app.Models.Question", null)
-                        .WithMany()
-                        .HasForeignKey("OpensQuestionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ChoiceStop", b =>
-                {
-                    b.HasOne("Project_mobile_app.Models.Choice", null)
-                        .WithMany()
-                        .HasForeignKey("ChoicesThatOpenThisId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project_mobile_app.Models.Stop", null)
-                        .WithMany()
-                        .HasForeignKey("OpensStopsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("GameUser", b =>
                 {
                     b.HasOne("Project_mobile_app.Models.Game", null)
@@ -593,6 +668,55 @@ namespace Project_mobile_app.Migrations
                         .HasForeignKey("OwnersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MapPositionStop", b =>
+                {
+                    b.HasOne("Project_mobile_app.Models.MapPosition", null)
+                        .WithMany()
+                        .HasForeignKey("PositionsDisplayAfterDisplayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project_mobile_app.Models.Stop", null)
+                        .WithMany()
+                        .HasForeignKey("StopDisplayAfterDisplayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MapPositionStop1", b =>
+                {
+                    b.HasOne("Project_mobile_app.Models.MapPosition", null)
+                        .WithMany()
+                        .HasForeignKey("PositionsDisplayAfterUnlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Project_mobile_app.Models.Stop", null)
+                        .WithMany()
+                        .HasForeignKey("StopDisplayAfterUnlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Project_mobile_app.Models.ChoiceStop", b =>
+                {
+                    b.HasOne("Project_mobile_app.Models.Choice", "ChoiceOpensThis")
+                        .WithMany("OpensStops")
+                        .HasForeignKey("ChoiceOpensThisId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Project_mobile_app.Models.Stop", "Opens")
+                        .WithMany("ChoicesOpenThis")
+                        .HasForeignKey("OpensId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("ChoiceOpensThis");
+
+                    b.Navigation("Opens");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.DisplayObject", b =>
@@ -646,7 +770,9 @@ namespace Project_mobile_app.Migrations
                 {
                     b.HasOne("Project_mobile_app.Models.PasswordGameRequirement", "PasswordGameRequirement")
                         .WithMany("Passwords")
-                        .HasForeignKey("PasswordGameRequirementId");
+                        .HasForeignKey("PasswordGameRequirementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PasswordGameRequirement");
                 });
@@ -672,28 +798,18 @@ namespace Project_mobile_app.Migrations
                         .WithOne("Position")
                         .HasForeignKey("Project_mobile_app.Models.MapPosition", "PositionOfStopId");
 
-                    b.HasOne("Project_mobile_app.Models.Stop", "StopDisplayAfterDisplay")
-                        .WithMany("PositionsDisplayAfterDisplay")
-                        .HasForeignKey("StopDisplayAfterDisplayId");
-
-                    b.HasOne("Project_mobile_app.Models.Stop", "StopDisplayAfterUnlock")
-                        .WithMany("PositionsDisplayAfterUnlock")
-                        .HasForeignKey("StopDisplayAfterUnlockId");
-
                     b.Navigation("Introduction");
 
                     b.Navigation("PositionOfStop");
-
-                    b.Navigation("StopDisplayAfterDisplay");
-
-                    b.Navigation("StopDisplayAfterUnlock");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.PasswordGameRequirement", b =>
                 {
                     b.HasOne("Project_mobile_app.Models.Stop", "Stop")
                         .WithMany("Passwords")
-                        .HasForeignKey("StopId");
+                        .HasForeignKey("StopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Stop");
                 });
@@ -711,19 +827,47 @@ namespace Project_mobile_app.Migrations
 
             modelBuilder.Entity("Project_mobile_app.Models.Stop", b =>
                 {
-                    b.HasOne("Project_mobile_app.Models.Game", "FirstStopOfGame")
-                        .WithOne("FirstStop")
-                        .HasForeignKey("Project_mobile_app.Models.Stop", "GameFirstStopId")
+                    b.HasOne("Project_mobile_app.Models.Game", "PartOfGame")
+                        .WithMany("Stops")
+                        .HasForeignKey("PartOfGameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Project_mobile_app.Models.Game", "PartOfGame")
-                        .WithMany("Stops")
-                        .HasForeignKey("PartOfGameId");
-
-                    b.Navigation("FirstStopOfGame");
-
                     b.Navigation("PartOfGame");
+                });
+
+            modelBuilder.Entity("Project_mobile_app.Models.StopStop", b =>
+                {
+                    b.HasOne("Project_mobile_app.Models.Stop", "Opens")
+                        .WithMany("StopsOpenThis")
+                        .HasForeignKey("OpensId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Project_mobile_app.Models.Stop", "StopOpensThis")
+                        .WithMany("Opens")
+                        .HasForeignKey("StopOpensThisId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Opens");
+
+                    b.Navigation("StopOpensThis");
+                });
+
+            modelBuilder.Entity("QuestionChoice", b =>
+                {
+                    b.HasOne("Project_mobile_app.Models.Choice", null)
+                        .WithMany()
+                        .HasForeignKey("ChoicesThatOpensThisId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Project_mobile_app.Models.Question", null)
+                        .WithMany()
+                        .HasForeignKey("OpensQuestionsId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("QuestionStop", b =>
@@ -741,27 +885,11 @@ namespace Project_mobile_app.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StopStop", b =>
-                {
-                    b.HasOne("Project_mobile_app.Models.Stop", null)
-                        .WithMany()
-                        .HasForeignKey("OpensId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Project_mobile_app.Models.Stop", null)
-                        .WithMany()
-                        .HasForeignKey("StopsThatOpenThisId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Project_mobile_app.Models.ChoiceForChoiceQuestion", b =>
                 {
                     b.HasOne("Project_mobile_app.Models.ChoiceQuestion", "Question")
                         .WithMany("Choices")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("QuestionId");
 
                     b.Navigation("Question");
                 });
@@ -770,8 +898,7 @@ namespace Project_mobile_app.Migrations
                 {
                     b.HasOne("Project_mobile_app.Models.TextQuestion", "Question")
                         .WithMany("Choices")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("QuestionId");
 
                     b.Navigation("Question");
                 });
@@ -781,10 +908,15 @@ namespace Project_mobile_app.Migrations
                     b.HasOne("Project_mobile_app.Models.TextQuestion", "Question")
                         .WithOne("DefaultChoice")
                         .HasForeignKey("Project_mobile_app.Models.DefaultChoice", "QuestionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Project_mobile_app.Models.Choice", b =>
+                {
+                    b.Navigation("OpensStops");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.DisplayObject", b =>
@@ -796,8 +928,6 @@ namespace Project_mobile_app.Migrations
 
             modelBuilder.Entity("Project_mobile_app.Models.Game", b =>
                 {
-                    b.Navigation("FirstStop");
-
                     b.Navigation("Introduction");
 
                     b.Navigation("Stops");
@@ -821,13 +951,15 @@ namespace Project_mobile_app.Migrations
 
                     b.Navigation("DisplayObjectsRewards");
 
+                    b.Navigation("ChoicesOpenThis");
+
+                    b.Navigation("Opens");
+
                     b.Navigation("Passwords");
 
                     b.Navigation("Position");
 
-                    b.Navigation("PositionsDisplayAfterDisplay");
-
-                    b.Navigation("PositionsDisplayAfterUnlock");
+                    b.Navigation("StopsOpenThis");
                 });
 
             modelBuilder.Entity("Project_mobile_app.Models.User", b =>

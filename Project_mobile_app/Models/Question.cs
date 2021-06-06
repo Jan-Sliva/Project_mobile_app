@@ -6,7 +6,7 @@ namespace Project_mobile_app.Models
     public abstract class Question : DbBase
     {
 #nullable disable
-        public string QuestionText { get; set; }
+        public string QuestionText { get; set; } // HTML
 
 #nullable enable
         public ICollection<Stop>? StopsThatOpenThis { get; set; }

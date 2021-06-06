@@ -12,17 +12,15 @@ namespace Project_mobile_app.Models
 
         public ICollection<Stop> Stops { get; set; }
 
-        public Stop FirstStop { get; set; }
-
         public Introduction Introduction { get; set; }
 
         public ICollection<User> Owners { get; set; }
 
 #nullable enable
 
-        public DateTime? PlayingTime { get; set; }
+        public short? PlayingTime { get; set; } // in minutes
 
-        public DateTime? Limit { get; set; }
+        public short? Limit { get; set; } // in minutes
 
     }
 }

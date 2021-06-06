@@ -21,8 +21,10 @@ namespace Project_mobile_app.Models
 
         public int? PositionOfStopId { get; set; }
 
-        public Stop? StopDisplayAfterDisplay { get; set; }
+        public bool? IsVisibleAsStopPosition { get; set; }
 
-        public Stop? StopDisplayAfterUnlock { get; set; }
+        public ICollection<Stop>? StopDisplayAfterDisplay { get; set; }
+
+        public ICollection<Stop>? StopDisplayAfterUnlock { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace Project_mobile_app.Configuration
 
             builder.HasMany(i => i.MapPositions).WithOne(mp => mp.Introduction);
 
+            builder.Property(i => i.Title).HasMaxLength(300).IsRequired(true); // HTML
         }
     }
 }

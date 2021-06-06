@@ -13,21 +13,25 @@ namespace Project_mobile_app.Models
 
         public bool IsFinal { get; set; }
 
+        public bool IsInitial { get; set; }
+
         public Game PartOfGame { get; set; }
-
-        public int GameFirstStopId { get; set; }
-
 #nullable enable
+        public short? State1Requirement { get; set; }
 
-        public ICollection<Stop>? Opens { get; set; }
+        public short? State2Requirement { get; set; }
 
-        public ICollection<Stop>? StopsThatOpenThis { get; set; }
+        public short? State3Requirement { get; set; }
 
-        public Game? FirstStopOfGame { get; set; }
+        public short? State4Requirement { get; set; }
+
+        public ICollection<StopStop>? Opens { get; set; }
+
+        public ICollection<StopStop>? StopsOpenThis { get; set; }
 
         public ICollection<Question>? Questions { get; set; }
 
-        public ICollection<Choice>? ChoicesThatOpenThis { get; set; }
+        public ICollection<ChoiceStop>? ChoicesOpenThis { get; set; }
 
         public ICollection<DisplayObjectStopDisplayAfterDisplay>? DisplayObjectsHints { get; set; }
 

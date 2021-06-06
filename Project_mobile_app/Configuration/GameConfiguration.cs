@@ -10,12 +10,13 @@ namespace Project_mobile_app.Configuration
         {
             builder.ToTable("Game");
 
-            builder.HasMany(g => g.Stops).WithOne(s => s.PartOfGame);
+            builder.HasMany(g => g.Stops).WithOne(s => s.PartOfGame).IsRequired(true);
 
-            builder.HasOne(g => g.FirstStop).WithOne(s => s.FirstStopOfGame).HasForeignKey<Stop>(s => s.GameFirstStopId);
+            builder.HasOne(g => g.Introduction).WithOne(i => i.Game).HasForeignKey<Introduction>(i => i.GameId).IsRequired(true);
 
-            builder.HasOne(g => g.Introduction).WithOne(i => i.Game).HasForeignKey<Introduction>(i => i.GameId);
+            builder.Property(g => g.Name).HasMaxLength(50).IsRequired(true);
 
+            builder.Property(g => g.Description).HasMaxLength(1000).IsRequired(true); // HTML
         }
     }
 }

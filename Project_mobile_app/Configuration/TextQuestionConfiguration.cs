@@ -8,9 +8,9 @@ namespace Project_mobile_app.Configuration
     {
         public void Configure(EntityTypeBuilder<TextQuestion> builder)
         {
-            builder.HasOne(tq => tq.DefaultChoice).WithOne(dc => dc.Question).HasForeignKey<DefaultChoice>(b => b.QuestionId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(tq => tq.DefaultChoice).WithOne(dc => dc.Question).HasForeignKey<DefaultChoice>(b => b.QuestionId);
 
-            builder.HasMany(tq => tq.Choices).WithOne(c => c.Question).OnDelete(DeleteBehavior.NoAction);
+            builder.HasMany(tq => tq.Choices).WithOne(c => c.Question);
 
         }
     }

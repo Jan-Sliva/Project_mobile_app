@@ -12,18 +12,15 @@ namespace Project_mobile_app.Configuration
 
             builder.HasMany(s => s.Questions).WithMany(q => q.StopsThatOpenThis);
 
-            builder.HasMany(s => s.Opens).WithMany(s => s.StopsThatOpenThis);
-
-            builder.HasMany(s => s.ChoicesThatOpenThis).WithMany(s => s.OpensStops);
-
             builder.HasOne(s => s.Position).WithOne(mp => mp.PositionOfStop).HasForeignKey<MapPosition>(mp => mp.PositionOfStopId);
 
-            builder.HasMany(s => s.PositionsDisplayAfterDisplay).WithOne(mp => mp.StopDisplayAfterDisplay);
+            builder.HasMany(s => s.PositionsDisplayAfterDisplay).WithMany(mp => mp.StopDisplayAfterDisplay);
 
-            builder.HasMany(s => s.PositionsDisplayAfterUnlock).WithOne(mp => mp.StopDisplayAfterUnlock);
+            builder.HasMany(s => s.PositionsDisplayAfterUnlock).WithMany(mp => mp.StopDisplayAfterUnlock);
 
-            builder.HasMany(s => s.Passwords).WithOne(p => p.Stop);
+            builder.HasMany(s => s.Passwords).WithOne(p => p.Stop).IsRequired(true);
 
+            builder.Property(s => s.Name).HasMaxLength(300).IsRequired(true); // HTML
         }
     }
 }

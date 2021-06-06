@@ -10,7 +10,7 @@
         public DisplayObject DisplayObject { get; set; }
 
         public int DisplayObjectId { get; set; }
-#nullable enable
-        public short? Position { get; set; }
+
+        public short Position { get; set; }
     }
 }

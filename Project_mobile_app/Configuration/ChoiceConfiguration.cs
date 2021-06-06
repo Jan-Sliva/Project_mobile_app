@@ -11,7 +11,6 @@ namespace Project_mobile_app.Configuration
             builder.ToTable("Choice");
 
             builder.HasMany(c => c.OpensMapPositions).WithMany(mp => mp.ChoicesThatOpenThis);
-
         }
     }
 }

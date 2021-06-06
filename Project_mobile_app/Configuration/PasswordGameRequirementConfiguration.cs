@@ -10,8 +10,9 @@ namespace Project_mobile_app.Configuration
         {
             builder.ToTable("PasswordGameRequirement");
 
-            builder.HasMany(pgr => pgr.Passwords).WithOne(p => p.PasswordGameRequirement);
+            builder.HasMany(pgr => pgr.Passwords).WithOne(p => p.PasswordGameRequirement).IsRequired(true);
 
+            builder.Property(pgr => pgr.Question).HasMaxLength(1000).IsRequired(true); // HTML
         }
     }
 }

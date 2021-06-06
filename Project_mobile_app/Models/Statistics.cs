@@ -9,7 +9,7 @@ namespace Project_mobile_app.Models
 
         public int UserId { get; set; }
 
-        public DateTime TimeInGames { get; set; }
+        public int TimeInGames { get; set; } // in minutes
 
         public short NumberOfGamesPlayed { get; set; }
 
