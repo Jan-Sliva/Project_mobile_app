@@ -9,6 +9,10 @@ namespace Project_mobile_app.Data
 {
     public class Project_mobile_appContext : DbContext
     {
+        public Project_mobile_appContext(DbContextOptions<Project_mobile_appContext> options)
+            : base(options)
+        { }
+
         public DbSet<Admin> Admins { get; set; }
 
         public DbSet<DefaultChoice> DefaultChoices { get; set; }

@@ -94,5 +94,7 @@ namespace Project_mobile_app.Data.Repositories
                 .Where(c => c.Games.Any(g => g.Id == gameId))
                 .ToListAsync();
         }
+
+        
     }
 }

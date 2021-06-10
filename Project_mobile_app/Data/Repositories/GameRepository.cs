@@ -51,9 +51,20 @@ namespace Project_mobile_app.Data.Repositories
         public async Task<Game> GetFullGameByIdAsync(int id)
         {
             return await AppContext.Games
-                .Include("DefaultChoice.DisplayObjectStopDisplayAfterDisplay.DisplayObjectStopDisplayAfterUnlock.Game." +
-                "GamePassword.ChoiceForChoiceQuestion.ChoiceForTextQuestion.ChoiceQuestion.ChoiceStop.Introduction." +
-                "MapPosition.PasswordGameRequirement.Picture.Stop.StopStop.Text.TextQuestion.User")
+                .Include("Stops.Questions.Choices.OpensMapPositions") // For both TextQuestion and ChoiceQuestion
+                .Include("Stops.Questions.DefaultChoice.OpensMapPositions")
+                .Include("Stops.Questions.ChoicesThatOpensThis.OpensMapPositions")
+                .Include("Stops.DisplayObjectsHints.DisplayObject")
+                .Include("Stops.DisplayObjectsRewards.DisplayObject")
+                .Include("Stops.Position")
+                .Include("Stops.PositionsDisplayAfterDisplay")
+                .Include("Stops.PositionsDisplayAfterUnlock")
+                .Include("Stops.ChoicesOpenThis.ChoiceOpensThis")
+                .Include("Stops.Passwords.Passwords")
+                .Include("Stops.Opens.Opens")
+                .Include("Introduction.MapPositions")
+                .Include("Introduction.DisplayObjects")
+                .Include("Owners")
                 .SingleOrDefaultAsync(c => c.Id == id);
         }
 

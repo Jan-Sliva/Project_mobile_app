@@ -1,0 +1,12 @@
+{
+  "ConnectionStrings": {
+    "Default": "Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=Project_mobile_app;Data Source=DESKTOP-MEZIOKN\\SQLEXPRESS"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  }
+}
