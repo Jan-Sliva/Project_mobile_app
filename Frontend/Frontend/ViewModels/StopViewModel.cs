@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Frontend.ViewModels
 {
-    public class BaseViewModel
+    class StopViewModel
     {
-        public string Title { get; set; }
     }
 }

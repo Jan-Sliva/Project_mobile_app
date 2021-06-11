@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Frontend.ViewModels
 {
-    public class BaseViewModel
+    public class IntroductionViewModel : BaseViewModel
     {
-        public string Title { get; set; }
+
     }
 }

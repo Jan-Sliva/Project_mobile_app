@@ -11,14 +11,26 @@ namespace Frontend
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-            Routing.RegisterRoute(nameof(MapPage), typeof(MapPage));
         }
 
-        private async void OnMenuItemClicked(object sender, EventArgs e)
+        public void AddFlyoutItem(FlyoutItem item)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            Items.Add(item);
+        }
+
+        public void AddFlyoutItemAtIndex(int index, FlyoutItem item)
+        {
+            Items.Insert(index, item);
+        }
+
+        public void RemoveFlyoutItem(FlyoutItem item)
+        {
+            Items.Remove(item);
+        }
+
+        public void RemoveFlyoutItemAtIndex(int index)
+        {
+            Items.RemoveAt(index);
         }
     }
 }
