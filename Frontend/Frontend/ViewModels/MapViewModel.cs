@@ -10,38 +10,45 @@ namespace Frontend.ViewModels
 {
     public class MapViewModel : BaseViewModel
     {
-        private List<PinViewModel> _pins { get; set; }
+        private List<PinViewModel> Pins { get;  }
 
-        private FlyoutItem _map { get; set; }
+        private FlyoutItem FlyOutItem { get; }
 
-        public MapPage mapPage { get; set; }
+        public MapPage MapPage { get; }
 
-        private ShellContent _shellContent { get; set; }
+        private ShellContent ShellContent { get; }
+
+        private string _title = string.Empty;
+        public string Title
+        {
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
+        }
 
         public MapViewModel(AppShell appShell)
         {
             this.Title = "Mapa";
 
-            this._pins = new List<PinViewModel>();
+            this.Pins = new List<PinViewModel>();
 
-            _map = new FlyoutItem()
+            FlyOutItem = new FlyoutItem()
             {
-                Title = "Mapa",
+                Title = this.Title,
                 Icon = "icon_map.png",
             };
 
-            mapPage = new MapPage(this) { Title = this.Title };
+            MapPage = new MapPage(this) { Title = this.Title };
 
-            _shellContent = new ShellContent { Content = mapPage};
+            ShellContent = new ShellContent { Content = MapPage};
 
-            _map.Items.Add(_shellContent);
+            FlyOutItem.Items.Add(ShellContent);
 
-            appShell.AddFlyoutItemAtIndex(1, _map);
+            appShell.AddFlyoutItemAtIndex(1, FlyOutItem);
         }
 
         public PinViewModel AddMapPosition(MapPosition mapPosition, PinDisplayType type, bool showCircle)
         {
-            foreach(PinViewModel model in _pins)
+            foreach(PinViewModel model in Pins)
             {
                 if (model.MapPosition == mapPosition)
                 {
@@ -52,22 +59,30 @@ namespace Frontend.ViewModels
             }
 
             var pinViewModel = new PinViewModel(this, mapPosition, type, showCircle);
-            _pins.Add(pinViewModel);
+            Pins.Add(pinViewModel);
             return pinViewModel;
+        }
+
+        public void AddPinViewModel(PinViewModel addedPin)
+        {
+            Pins.Add(addedPin);
         }
 
         public PinViewModel RemoveMapPosition(MapPosition mapPosition)
         {
-            var removedPin = _pins.Find(p => p.MapPosition == mapPosition);
-            removedPin.Remove();
-            _pins.Remove(removedPin);
+            var removedPin = Pins.Find(p => p.MapPosition == mapPosition);
+            if (removedPin != null)
+            {
+                removedPin.Remove();
+                Pins.Remove(removedPin);
+            }
             return removedPin;
         }
 
         public void RemovePinViewModel(PinViewModel removedPin)
         {
             removedPin.Remove();
-            _pins.Remove(removedPin);
+            Pins.Remove(removedPin);
         }
     }
 }

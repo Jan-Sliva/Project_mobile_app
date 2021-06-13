@@ -17,15 +17,15 @@ namespace Frontend.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
-        public MapViewModel mapViewModel { get; set; }
+        private MapViewModel MapViewModel { get; }
 
-        private MapWithColouredPins _map { get; set; }
+        private MapWithColouredPins Map { get; set; }
 
-        private List<PinViewModel> _pins { get; set; }
+        private List<PinViewModel> Pins { get; set; }
 
         public MapPage(MapViewModel mapViewModel)
         {
-            this.mapViewModel = mapViewModel;
+            this.MapViewModel = mapViewModel;
 
             InitMap();
 
@@ -35,32 +35,32 @@ namespace Frontend.Views
         public async Task InitMap()
         {
             var location = await LocationService.GetLastKnownLocation();
-            _map = new MapWithColouredPins(new MapSpan(new Position(location.Latitude, location.Longitude), 0.03, 0.03))
+            Map = new MapWithColouredPins(new MapSpan(new Position(location.Latitude, location.Longitude), 0.03, 0.03))
             {
                 MapType = MapType.Hybrid,
                 IsShowingUser = true
             };
-            this.Content =  _map;
+            this.Content =  Map;
         }
 
         public void AddPinToMap(Pin pin)
         {
-            _map.Pins.Add(pin);
+            Map.Pins.Add(pin);
         }
 
         public void RemovePinFromMap(Pin pin)
         {
-            _map.Pins.Remove(pin);
+            Map.Pins.Remove(pin);
         }
 
         public void AddMapElementToMap(MapElement mapElement)
         {
-            _map.MapElements.Add(mapElement);
+            Map.MapElements.Add(mapElement);
         }
 
         public void RemoveMapElementFromMap(MapElement mapElement)
         {
-            _map.MapElements.Remove(mapElement);
+            Map.MapElements.Remove(mapElement);
         }
     }
 }

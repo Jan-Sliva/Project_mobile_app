@@ -27,14 +27,14 @@ namespace CustomRenderer.Droid
             marker.SetPosition(new LatLng(pin.Position.Latitude, pin.Position.Longitude));
             marker.SetTitle(pin.Label);
             marker.SetSnippet(pin.Address);
-            //if (pin.GetType().Equals(typeof(ColouredPin)))
-            //{
+            if (pin.GetType().Equals(typeof(ColouredPin)))
+            {
                 marker.SetIcon(BitmapDescriptorFactory.DefaultMarker((pin as ColouredPin).Colour));
-            //}
-            //else
-            //{
-            //    marker.SetIcon(BitmapDescriptorFactory.DefaultMarker());
-            //}
+            }
+            else
+            {
+                marker.SetIcon(BitmapDescriptorFactory.DefaultMarker());
+            }
             return marker;
         }
     }

@@ -15,7 +15,7 @@ namespace Frontend.ViewModels
         UNLOCKED,
         NOT_STOP
     }
-    public class PinViewModel
+    public class PinViewModel : BaseViewModel
     {
         private const float _lockedPinColour = PinColours.Orange;
 
@@ -23,91 +23,89 @@ namespace Frontend.ViewModels
 
         private const float _notStopPinColour = PinColours.Violet;
 
-        private ColouredPin _pin { get; set; }
+        private ColouredPin Pin { get; }
 
-        private bool _pinOnMap { get; set; }
+        private bool PinOnMap { get; set; }
 
-        private Circle _circle { get; set; }
+        private Circle Circle { get; }
 
-        private bool _circleOnMap { get; set; }
+        private bool CircleOnMap { get; set; }
 
-        private bool _showCircle { get; set; }
+        private MapViewModel MapView { get; }
 
-        public bool ShowCircle
-        {
-            get { return _showCircle; }
-            set { _showCircle = value; RefreshCircleOnMap(); }
-        }
+        private double X { get; }
 
-        private MapViewModel _mapView { get; set; }
+        private double Y { get; }
 
-        private double _X { get; }
+        private double Radius { get; }
 
-        private double _Y { get; }
-
-        private double _radius { get; }
-
-        private string _label { get; set; }
+        private string Label { get; set; }
 
         private PinDisplayType _colourType;
 
         public PinDisplayType ColourType
         {
             get { return _colourType; }
-            set
-            {
-                _colourType = value;
-                RefreshPinOnMap();
-                RefreshCircleOnMap();
-             }
+            set { SetProperty(ref _colourType, value); }
+        }
+
+        private bool _showCircle;
+
+        public bool ShowCircle
+        {
+            get { return _showCircle; }
+            set { SetProperty(ref _showCircle, value); }
         }
 
         public MapPosition MapPosition { get;  }
 
         public PinViewModel(MapViewModel mapView, MapPosition position, PinDisplayType type, bool showCircle)
         {
-            _X = position.X;
-            _Y = position.Y;
-            _radius = position.Radius;
-            _label = position.Description;
-            if (_label == null) _label = "";
-            _mapView = mapView;
+            X = position.X;
+            Y = position.Y;
+            Radius = position.Radius;
+            Label = position.Description;
+            if (Label == null) Label = "";
+            MapView = mapView;
             MapPosition = position;
             _colourType = type;
             _showCircle = showCircle;
 
-            _pin = new ColouredPin()
+            this.PropertyChanged += (_, __) => RefreshPinOnMap();
+            this.PropertyChanged += (_, __) => RefreshCircleOnMap();
+
+            Pin = new ColouredPin()
             {
-                Position = new Position(_X, _Y),
+                Position = new Position(X, Y),
                 Type = PinType.Generic,
-                Label = _label
+                Label = Label
             };
 
-            _circle = new Circle()
+            Circle = new Circle()
             {
-                Center = new Position(_X, _Y),
-                Radius = new Distance(_radius),
+                Center = new Position(X, Y),
+                Radius = new Distance(Radius),
                 StrokeWidth = 7
             };
 
             if (type != PinDisplayType.NOT_VISIBLE)
             {
-                _mapView.mapPage.AddPinToMap(_pin);
-                _pinOnMap = true;
+                MapView.MapPage.AddPinToMap(Pin);
+                PinOnMap = true;
             }
             else
             {
-                _pinOnMap = false;
+                PinOnMap = false;
             }
 
             if (_showCircle)
             {
-                mapView.mapPage.AddMapElementToMap(_circle);
-                _circleOnMap = true;
+                mapView.MapPage.AddMapElementToMap(Circle);
+                CircleOnMap = true;
             }
             else
             {
-                _circleOnMap = false;
+                CircleOnMap = false;
             }
 
             RefreshPinOnMap();
@@ -115,7 +113,7 @@ namespace Frontend.ViewModels
         }
 
 
-        private float _getColourByDisplayType(PinDisplayType pinDisplayType)
+        private float GetColourByDisplayType(PinDisplayType pinDisplayType)
         {
             switch (ColourType)
             {
@@ -128,40 +126,40 @@ namespace Frontend.ViewModels
 
         public void RefreshCircleOnMap()
         {
-            if ((_showCircle && !_circleOnMap) && ColourType != PinDisplayType.NOT_VISIBLE)
+            if ((_showCircle && !CircleOnMap) && ColourType != PinDisplayType.NOT_VISIBLE)
             {
-                _mapView.mapPage.AddMapElementToMap(_circle);
-                _circleOnMap = true;
+                MapView.MapPage.AddMapElementToMap(Circle);
+                CircleOnMap = true;
             }
-            else if (!_showCircle && _circleOnMap)
+            else if (!_showCircle && CircleOnMap)
             {
-                _mapView.mapPage.RemoveMapElementFromMap(_circle);
-                _circleOnMap = false;
+                MapView.MapPage.RemoveMapElementFromMap(Circle);
+                CircleOnMap = false;
             }
 
-            if (_circleOnMap)
+            if (CircleOnMap)
             {
-                _circle.FillColor = Color.FromHsva(_getColourByDisplayType(ColourType) / 360, 1, 0.5, 0.5);
-                _circle.StrokeColor = Color.FromHsva(_getColourByDisplayType(ColourType) / 360, 1, 0.5, 1);
+                Circle.FillColor = Color.FromHsva(GetColourByDisplayType(ColourType) / 360, 1, 0.5, 0.5);
+                Circle.StrokeColor = Color.FromHsva(GetColourByDisplayType(ColourType) / 360, 1, 0.5, 1);
             }
         }
 
         public void RefreshPinOnMap()
         {
-            if (ColourType != PinDisplayType.NOT_VISIBLE && !_pinOnMap)
+            if (ColourType != PinDisplayType.NOT_VISIBLE && !PinOnMap)
             {
-                _mapView.mapPage.AddPinToMap(_pin);
-                _pinOnMap = true;
+                MapView.MapPage.AddPinToMap(Pin);
+                PinOnMap = true;
             }
-            else if (ColourType == PinDisplayType.NOT_VISIBLE && _pinOnMap)
+            else if (ColourType == PinDisplayType.NOT_VISIBLE && PinOnMap)
             {
-                _mapView.mapPage.RemovePinFromMap(_pin);
-                _pinOnMap = false;
+                MapView.MapPage.RemovePinFromMap(Pin);
+                PinOnMap = false;
             }
 
-            if (_pinOnMap)
+            if (PinOnMap)
             {
-                _pin.Colour = _getColourByDisplayType(ColourType);
+                Pin.Colour = GetColourByDisplayType(ColourType);
             }
         }
 
