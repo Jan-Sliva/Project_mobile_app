@@ -18,6 +18,8 @@ namespace Frontend.ViewModels
 
         private ShellContent ShellContent { get; }
 
+        private AppShell AppShell { get; set; }
+
         private string _title = string.Empty;
         public string Title
         {
@@ -28,6 +30,8 @@ namespace Frontend.ViewModels
         public MapViewModel(AppShell appShell)
         {
             this.Title = "Mapa";
+
+            this.AppShell = appShell;
 
             this.Pins = new List<PinViewModel>();
 
@@ -43,9 +47,19 @@ namespace Frontend.ViewModels
 
             FlyOutItem.Items.Add(ShellContent);
 
-            appShell.AddFlyoutItemAtIndex(1, FlyOutItem);
+            AddToBar();
         }
 
+
+        public void AddToBar()
+        {
+            AppShell.AddFlyoutItemAtIndex(1, FlyOutItem);
+        }
+
+        public void RemoveFromBar()
+        {
+            AppShell.RemoveFlyoutItem(this.FlyOutItem);
+        }
         public PinViewModel AddMapPosition(MapPosition mapPosition, PinDisplayType type, bool showCircle)
         {
             foreach(PinViewModel model in Pins)

@@ -27,7 +27,7 @@ namespace Frontend.ViewModels
 
         public Command ConfirmPassword { get; }
 
-        public GamePasswordViewModel(InfoScreenViewModel infoScreenViewModel, PasswordGameRequirement password, int position)
+        public GamePasswordViewModel(InfoScreenViewModel infoScreenViewModel, PasswordGameRequirement password, int position = 0)
         {
             this.Title = password.Question;
             this.Position = position;

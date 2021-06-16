@@ -17,6 +17,8 @@ namespace Frontend.ViewModels
         {
             this.Title = title;
 
+            AppShell = appShell;
+
             DisplayObjects = new ObservableCollection<DisplayObjectViewModel>();
 
             AddedDisplayObject += UpdateDisplayObjects;
@@ -32,8 +34,17 @@ namespace Frontend.ViewModels
             ShellContent = new ShellContent { Content = StopPage };
 
             FlyoutItem.Items.Add(ShellContent);
+        }
 
-            appShell.AddFlyoutItemAtIndex(2, FlyoutItem);
+
+        public void AddToBar()
+        {
+            AppShell.AddFlyoutItemAtIndex(2, FlyoutItem);
+        }
+
+        public void RemoveFromBar()
+        {
+            AppShell.RemoveFlyoutItem(this.FlyoutItem);
         }
 
         public DisplayObjectViewModel AddDisplayObject(object objectToDisplay, int position)
@@ -59,6 +70,17 @@ namespace Frontend.ViewModels
             DisplayObjects.Add(addedPassword);
             RaiseAddedDisplayObjectEvent(this, addedPassword);
             return addedPassword;
+        }
+
+        public void AddPasswordViewModel(GamePasswordViewModel passwordToAdd)
+        {
+            DisplayObjects.Add(passwordToAdd);
+            RaiseAddedDisplayObjectEvent(this, passwordToAdd);
+        }
+
+        public void RemovePasswordViewModel(GamePasswordViewModel passwordToRemove)
+        {
+            DisplayObjects.Remove(passwordToRemove);
         }
 
         public TextViewModel AddText(Text text, int position)

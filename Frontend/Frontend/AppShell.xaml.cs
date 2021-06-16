@@ -32,5 +32,10 @@ namespace Frontend
         {
             Items.RemoveAt(index);
         }
+
+        public void RemoveAllFlyoutItems()
+        {
+            Items.Clear();
+        }
     }
 }

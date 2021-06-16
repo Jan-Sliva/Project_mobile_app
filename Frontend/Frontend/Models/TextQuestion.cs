@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Frontend.Services;
 
 namespace Frontend.Models
 {
@@ -9,6 +10,5 @@ namespace Frontend.Models
         public DefaultChoice DefaultChoice { get; set; }
 
         public ICollection<ChoiceForTextQuestion> Choices { get; set; }
-
     }
 }

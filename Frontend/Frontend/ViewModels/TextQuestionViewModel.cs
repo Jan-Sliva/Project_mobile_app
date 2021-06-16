@@ -42,8 +42,6 @@ namespace Frontend.ViewModels
             ShellContent = new ShellContent { Content = TextQuestionPage };
 
             FlyOutItem.Items.Add(ShellContent);
-
-            appShell.AddFlyoutItemAtIndex(2, FlyOutItem);
         }
 
         public void OnAnswerConfirmed()
@@ -52,5 +50,15 @@ namespace Frontend.ViewModels
             AppShell.RemoveFlyoutItem(this.FlyOutItem);
         }
 
+        public void Ask()
+        {
+            Answer = "";
+            AppShell.AddFlyoutItemAtIndex(2, FlyOutItem);
+        }
+
+        public void RemoveFromBar()
+        {
+            AppShell.RemoveFlyoutItem(this.FlyOutItem);
+        }
     }
 }

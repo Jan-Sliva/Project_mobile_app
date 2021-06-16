@@ -15,6 +15,8 @@ namespace Frontend.ViewModels
 
         protected ShellContent ShellContent { get; set; }
 
+        protected AppShell AppShell { get; set; }
+
         public ObservableCollection<DisplayObjectViewModel> DisplayObjects { get; protected set; }
 
         private string _title = string.Empty;
@@ -69,8 +71,11 @@ namespace Frontend.ViewModels
         public void UpdateDisplayObject(DisplayObjectViewModel item)
         {
             int index = DisplayObjects.IndexOf(item);
-            DisplayObjects.Remove(item);
-            DisplayObjects.Insert(index, item);
+            if (index != -1)
+            {
+                DisplayObjects.Remove(item);
+                DisplayObjects.Insert(index, item);
+            }
         }
     }
 

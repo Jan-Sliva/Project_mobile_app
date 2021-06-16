@@ -15,9 +15,11 @@ namespace Frontend.ViewModels
         
         public IntroPage IntroPage { get; }
 
-        public IntroductionViewModel(AppShell appShell)
+        public IntroductionViewModel(AppShell appShell, string title = "Úvod")
         {
-            this.Title = "Úvod";
+            this.Title = title;
+
+            AppShell = appShell;
 
             DisplayObjects = new ObservableCollection<DisplayObjectViewModel>();
 
@@ -35,7 +37,18 @@ namespace Frontend.ViewModels
 
             FlyoutItem.Items.Add(ShellContent);
 
-            appShell.AddFlyoutItemAtIndex(0, FlyoutItem);
+            AddToBar();
+        }
+
+
+        public void AddToBar()
+        {
+            AppShell.AddFlyoutItemAtIndex(0, FlyoutItem);
+        }
+
+        public void RemoveFromBar()
+        {
+            AppShell.RemoveFlyoutItem(this.FlyoutItem);
         }
 
         public DisplayObjectViewModel AddDisplayObject(DisplayObject displayObject)

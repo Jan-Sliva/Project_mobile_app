@@ -46,7 +46,16 @@ namespace Frontend.ViewModels
 
             FlyOutItem.Items.Add(ShellContent);
 
-            appShell.AddFlyoutItemAtIndex(2, FlyOutItem);
+        }
+
+        public void Ask()
+        {
+            AppShell.AddFlyoutItemAtIndex(2, FlyOutItem);
+        }
+
+        public void RemoveFromBar()
+        {
+            AppShell.RemoveFlyoutItem(this.FlyOutItem);
         }
 
         public void OnAnswerConfirmed()

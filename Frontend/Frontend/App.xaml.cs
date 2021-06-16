@@ -9,24 +9,12 @@ using Frontend.RestClient;
 using System.Threading;
 using Frontend.RestClient.Mapping;
 using Frontend.RestClient.Resources.GameResources.FullGame;
+using Frontend.Services;
 
 namespace Frontend
 {
     public partial class App : Application
     {
-        public async void RunGame(int id)
-        {
-            var restClient = new RestClient.RestClient();
-
-            var gameResource = await restClient.GetFullGameByIdAsync(id);
-
-            var converter = new FullGameConverter();
-
-            var game = converter.Convert(gameResource);
-
-            var breakPoint = 1;
-        }
-
 
         public App()
         {
@@ -34,7 +22,18 @@ namespace Frontend
 
             MainPage = new AppShell();
 
-            RunGame(1);
+            var MainGame = new GameService();
+
+            MainGame.LoadAndPlayGame(1, MainPage as AppShell);
+
+            /*
+            locationChecker = new LocationChecker();
+
+            var location1 = new LocationToCheck(49.94202651288202, 14.327889264263597, 10);
+
+            location1.LocationReached += OnPositionReached;
+
+            locationChecker.AddLocation(location1);
 
             var Intro1 = new IntroductionViewModel(MainPage as AppShell);
 
@@ -96,19 +95,10 @@ namespace Frontend
             Stop1.AddText(Text5, 0);
 
             new TextQuestionViewModel(MainPage as AppShell, new TextQuestion { QuestionText = "Kolik ti je let?" });
-
-            new ChoiceQuestionViewModel(MainPage as AppShell, new ChoiceQuestion
-            {
-                QuestionText = "Kolik je hodin?",
-                Choices = new List<ChoiceForChoiceQuestion>() {
-                new ChoiceForChoiceQuestion { Text = "h"},
-                new ChoiceForChoiceQuestion { Text = "hodně"},
-                new ChoiceForChoiceQuestion { Text = "nevím"},
-                new ChoiceForChoiceQuestion { Text = "deset tisíc"}
-                }
-            });
+            */
         }
 
+        /*
         public void OnPasswordRecieved(object sender, ConfirmedTextEventArgs e)
         {
             if (e.Text == "1")
@@ -117,6 +107,7 @@ namespace Frontend
                 (sender as GamePasswordViewModel).ConfirmedPasswordEvent -= OnPasswordRecieved;
             }
         }
+        */
 
         protected override void OnStart()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Frontend.Services;
 
 
 namespace Frontend.Models
@@ -11,6 +12,8 @@ namespace Frontend.Models
         public ICollection<Stop> StopsThatOpenThis { get; set; }
 
         public ICollection<Choice> ChoicesThatOpensThis { get; set; }
+
+        public QuestionService Service { get; set; }
 
     }
 }
