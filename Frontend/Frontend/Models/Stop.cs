@@ -7,13 +7,11 @@ namespace Frontend.Models
 {
     public class Stop : DbBase
     {
-
-
         public string Name { get; set; } // HTML
 
-        public bool IsFinal { get; set; }
+        public bool? IsFinal { get; set; }
 
-        public bool IsInitial { get; set; }
+        public bool? IsInitial { get; set; }
 
         public Game PartOfGame { get; set; }
 

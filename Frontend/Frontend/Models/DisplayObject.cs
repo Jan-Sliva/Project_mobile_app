@@ -5,8 +5,6 @@ namespace Frontend.Models
 {
     public abstract class DisplayObject : DbBase
     {
-
-
         public Introduction Introduction { get; set; }
 
         public short? PositionInIntroduction { get; set; }

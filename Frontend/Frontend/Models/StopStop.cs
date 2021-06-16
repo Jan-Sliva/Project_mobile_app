@@ -8,11 +8,7 @@ namespace Frontend.Models
     {
         public Stop StopOpensThis { get; set; }
 
-        public int StopOpensThisId { get; set; }
-
         public Stop Opens { get; set; }
-
-        public int OpensId { get; set; }
 
     }
 }

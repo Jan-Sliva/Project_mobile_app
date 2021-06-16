@@ -6,7 +6,6 @@ namespace Frontend.Models
 {
     public class TextQuestion : Question
     {
-
         public DefaultChoice DefaultChoice { get; set; }
 
         public ICollection<ChoiceForTextQuestion> Choices { get; set; }

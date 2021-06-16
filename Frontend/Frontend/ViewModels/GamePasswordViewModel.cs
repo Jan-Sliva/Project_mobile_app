@@ -41,24 +41,14 @@ namespace Frontend.ViewModels
 
         public event ConfirmedPasswordEventHandler ConfirmedPasswordEvent;
 
-        public delegate void ConfirmedPasswordEventHandler(GamePasswordViewModel sender, GamePasswordEventArgs e);
+        public delegate void ConfirmedPasswordEventHandler(GamePasswordViewModel sender, ConfirmedTextEventArgs e);
 
         public void OnPasswordConfirm()
         {
-            ConfirmedPasswordEvent(this, new GamePasswordEventArgs(this.EnteredPassword));
+            ConfirmedPasswordEvent(this, new ConfirmedTextEventArgs(this.EnteredPassword));
             SetProperty(ref _enteredPassword, "");
         }
     }
 
-    public class GamePasswordEventArgs : EventArgs
-    {
-        private readonly string password;
 
-        public GamePasswordEventArgs(string password)
-        {
-            this.password = password;
-        }
-
-        public string Password { get { return password; } }
-    }
 }

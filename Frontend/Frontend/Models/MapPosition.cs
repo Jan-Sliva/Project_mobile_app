@@ -19,8 +19,6 @@ namespace Frontend.Models
 
         public Stop PositionOfStop { get; set; }
 
-        public int? PositionOfStopId { get; set; }
-
         public bool? IsVisibleAsStopPosition { get; set; }
 
         public ICollection<Stop> StopDisplayAfterDisplay { get; set; }

@@ -9,6 +9,6 @@ namespace Frontend.ViewModels
     {
         public ColouredPin() : base() { Colour = 0; }
         
-        public float Colour { get; set; }
+        public float Colour { get; set; } // hue
     }
 }

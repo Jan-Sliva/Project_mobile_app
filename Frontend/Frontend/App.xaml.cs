@@ -4,17 +4,37 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Frontend.ViewModels;
 using Frontend.Models;
+using System.Collections.Generic;
+using Frontend.RestClient;
+using System.Threading;
+using Frontend.RestClient.Mapping;
+using Frontend.RestClient.Resources.GameResources.FullGame;
 
 namespace Frontend
 {
     public partial class App : Application
     {
+        public async void RunGame(int id)
+        {
+            var restClient = new RestClient.RestClient();
+
+            var gameResource = await restClient.GetFullGameByIdAsync(id);
+
+            var converter = new FullGameConverter();
+
+            var game = converter.Convert(gameResource);
+
+            var breakPoint = 1;
+        }
+
 
         public App()
         {
             InitializeComponent();
 
             MainPage = new AppShell();
+
+            RunGame(1);
 
             var Intro1 = new IntroductionViewModel(MainPage as AppShell);
 
@@ -59,7 +79,7 @@ namespace Frontend
 
             var Text5 = new Text() { Title = "Test5", OwnText = "5: hodně doufám, že to funguje", PositionInIntroduction = 0 };
 
-            var Password1 = new PasswordGameRequirement() { Question = "Kolik je 1 + 1?" };
+            var Password1 = new PasswordGameRequirement() { Question = "Kolik je 1 + 0?" };
 
             var Password2 = new PasswordGameRequirement() { Question = "Kolik je 2 - 1?" };
 
@@ -74,11 +94,24 @@ namespace Frontend
             PasswordView2.ConfirmedPasswordEvent += OnPasswordRecieved;
 
             Stop1.AddText(Text5, 0);
+
+            new TextQuestionViewModel(MainPage as AppShell, new TextQuestion { QuestionText = "Kolik ti je let?" });
+
+            new ChoiceQuestionViewModel(MainPage as AppShell, new ChoiceQuestion
+            {
+                QuestionText = "Kolik je hodin?",
+                Choices = new List<ChoiceForChoiceQuestion>() {
+                new ChoiceForChoiceQuestion { Text = "h"},
+                new ChoiceForChoiceQuestion { Text = "hodně"},
+                new ChoiceForChoiceQuestion { Text = "nevím"},
+                new ChoiceForChoiceQuestion { Text = "deset tisíc"}
+                }
+            });
         }
 
-        public void OnPasswordRecieved(object sender, GamePasswordEventArgs e)
+        public void OnPasswordRecieved(object sender, ConfirmedTextEventArgs e)
         {
-            if (e.Password == "1")
+            if (e.Text == "1")
             {
                 (sender as GamePasswordViewModel).IsDone = true;
                 (sender as GamePasswordViewModel).ConfirmedPasswordEvent -= OnPasswordRecieved;

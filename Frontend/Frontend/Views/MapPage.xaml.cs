@@ -11,6 +11,7 @@ using Frontend.Models;
 using Xamarin.Forms.Maps;
 using Frontend.Services;
 using System.Threading;
+using Frontend.Resources;
 
 namespace Frontend.Views
 {
@@ -35,10 +36,10 @@ namespace Frontend.Views
         public async Task InitMap()
         {
             var location = await LocationService.GetLastKnownLocation();
-            Map = new MapWithColouredPins(new MapSpan(new Position(location.Latitude, location.Longitude), 0.03, 0.03))
+            Map = new MapWithColouredPins(new MapSpan(new Position(location.Latitude, location.Longitude), MapResources.InitialFocusLatitude, MapResources.InitialFocusLongitude))
             {
-                MapType = MapType.Hybrid,
-                IsShowingUser = true
+                MapType = MapResources.TypoOfMap,
+                IsShowingUser = MapResources.IsShowingUser
             };
             this.Content =  Map;
         }

@@ -16,11 +16,9 @@ namespace Frontend.Models
 
         public ICollection<User> Owners { get; set; }
 
+        public TimeSpan PlayingTime { get; set; } // in minutes
 
-
-        public short? PlayingTime { get; set; } // in minutes
-
-        public short? Limit { get; set; } // in minutes
+        public TimeSpan Limit { get; set; } // in minutes
 
     }
 }

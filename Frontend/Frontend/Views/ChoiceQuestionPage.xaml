@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Views.ChoiceQuestionPage"
+             xmlns:model="clr-namespace:Frontend.ViewModels">
+    <ContentPage.Content>
+        <StackLayout Padding="18" x:DataType="model:ChoiceQuestionViewModel">
+            <Label Text="{Binding Question}" 
+                LineBreakMode="WordWrap" 
+                Style="{DynamicResource ListItemTextStyle}" 
+                FontSize="30" 
+                TextType="Html"/>
+            <CollectionView ItemsSource="{Binding Choices}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" Orientation="Horizontal" x:DataType="model:ChoiceForChoiceQuestionViewModel">
+                            <CheckBox IsChecked="{Binding IsChosen, Mode=TwoWay}"
+                                      Color="{StaticResource Primary}"
+                                      Scale="1"/>
+                            <Label Text="{Binding ChoiceText}"
+                                   FontSize="22"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                BorderColor="#332196F3"
+                Text="Odeslat"
+                HorizontalOptions="End"
+                Command="{Binding ConfirmQuestion}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

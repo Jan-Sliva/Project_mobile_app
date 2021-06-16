@@ -58,7 +58,7 @@
                             Style="{DynamicResource ListItemTextStyle}" 
                             FontSize="16" 
                             TextType="Html"/>
-                    <Label Text="Toto heslo už jste odpověděli správně" 
+                    <Label Text="Toto heslo už jste zodpověděli správně" 
                             LineBreakMode="WordWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="10" />

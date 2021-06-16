@@ -7,12 +7,10 @@ namespace Frontend.Models
 
         public User User { get; set; }
 
-        public int UserId { get; set; }
+        public TimeSpan TimeInGames { get; set; } // in minutes
 
-        public int TimeInGames { get; set; } // in minutes
+        public short? NumberOfGamesPlayed { get; set; }
 
-        public short NumberOfGamesPlayed { get; set; }
-
-        public short SuccesfullGames { get; set; }
+        public short? SuccesfullGames { get; set; }
     }
 }

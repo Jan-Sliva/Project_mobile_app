@@ -8,7 +8,6 @@ namespace Frontend.Models
 
         public string QuestionText { get; set; } // HTML
 
-
         public ICollection<Stop> StopsThatOpenThis { get; set; }
 
         public ICollection<Choice> ChoicesThatOpensThis { get; set; }

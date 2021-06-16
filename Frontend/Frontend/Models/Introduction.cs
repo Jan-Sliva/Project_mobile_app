@@ -9,8 +9,6 @@ namespace Frontend.Models
 
         public Game Game { get; set; }
 
-        public int GameId { get; set; }
-
         public ICollection<MapPosition> MapPositions { get; set; }
 
         public ICollection<DisplayObject> DisplayObjects { get; set; }
