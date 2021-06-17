@@ -31,12 +31,16 @@ namespace Frontend.Services
 
         public void OnPasswordRecieved(object sender, ConfirmedTextEventArgs e)
         {
-            foreach(GamePassword password in Model.Passwords)
+            if (Model.Passwords != null)
             {
-                if (Correspond(password, e.Text)){
-                    PasswordCompleted(this, EventArgs.Empty);
-                    PasswordViewModel.IsDone = true;
-                    return;
+                foreach (GamePassword password in Model.Passwords)
+                {
+                    if (Correspond(password, e.Text))
+                    {
+                        PasswordCompleted?.Invoke(this, EventArgs.Empty);
+                        PasswordViewModel.IsDone = true;
+                        return;
+                    }
                 }
             }
         }

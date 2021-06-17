@@ -115,7 +115,7 @@ namespace Frontend.ViewModels
 
         private float GetColourByDisplayType(PinDisplayType pinDisplayType)
         {
-            switch (ColourType)
+            switch (pinDisplayType)
             {
                 case PinDisplayType.LOCKED: return _lockedPinColour;
                 case PinDisplayType.UNLOCKED: return _unLockedPinColour;

@@ -19,6 +19,8 @@ namespace Frontend.Services
 
             Model.Service = this;
 
+            MapService = mapService;
+
             ViewModel = new TextQuestionViewModel(appShell, textQuestion);
 
             ViewModel.ConfirmedQuestionEvent += OnConfirm;
@@ -26,16 +28,19 @@ namespace Frontend.Services
 
         public void OnConfirm(object sender, ConfirmedTextEventArgs e)
         {
-            foreach(ChoiceForTextQuestion choice in Model.Choices)
+            if (Model.Choices != null)
             {
-                if (Correspond(choice, e.Text))
+                foreach (ChoiceForTextQuestion choice in Model.Choices)
                 {
-                    ProcessChoice(choice);
-                    return;
+                    if (Correspond(choice, e.Text))
+                    {
+                        ProcessChoice(choice);
+                        return;
+                    }
                 }
             }
 
-            ProcessChoice(Model.DefaultChoice);
+            if (Model.DefaultChoice != null) ProcessChoice(Model.DefaultChoice);
         }
 
 

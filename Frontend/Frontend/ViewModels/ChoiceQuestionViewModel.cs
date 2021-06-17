@@ -45,7 +45,6 @@ namespace Frontend.ViewModels
             ShellContent = new ShellContent { Content = TextQuestionPage };
 
             FlyOutItem.Items.Add(ShellContent);
-
         }
 
         public void Ask()

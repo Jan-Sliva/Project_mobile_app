@@ -17,21 +17,28 @@ namespace Frontend.Services
 
         public void AddNotStops(List<MapPosition> mapPositions)
         {
-            foreach(MapPosition position in mapPositions)
+            if (mapPositions != null)
             {
-                MapViewModel.AddMapPosition(position, PinDisplayType.NOT_STOP, true);
+                foreach (MapPosition position in mapPositions)
+                {
+                    MapViewModel.AddMapPosition(position, PinDisplayType.NOT_STOP, true);
+                }
             }
         }
 
-        public PinViewModel AddStop(MapPosition position, int state)
+        public PinViewModel AddStop(MapPosition position, int state, bool? visible)
         {
             if (state == 1) return MapViewModel.AddMapPosition(position, PinDisplayType.NOT_VISIBLE, false);
-            else if (state == 2) return MapViewModel.AddMapPosition(position, PinDisplayType.LOCKED, true);
+            else if (state == 2)
+            {
+                if (visible == false) return MapViewModel.AddMapPosition(position, PinDisplayType.NOT_VISIBLE, false);
+                else return MapViewModel.AddMapPosition(position, PinDisplayType.LOCKED, true);
+            }
             else if (state == 3) return MapViewModel.AddMapPosition(position, PinDisplayType.UNLOCKED, false);
             return null;
         }
 
-        public void SetPinViewModelToState(PinViewModel pinView, int state)
+        public void SetPinViewModelToState(PinViewModel pinView, int state, bool? visible)
         {
             if (state == 1)
             {
@@ -40,8 +47,16 @@ namespace Frontend.Services
             }
             else if (state == 2)
             {
-                pinView.ColourType = PinDisplayType.LOCKED;
-                pinView.ShowCircle = true;
+                if (visible == false)
+                {
+                    pinView.ColourType = PinDisplayType.NOT_VISIBLE;
+                    pinView.ShowCircle = false;
+                }
+                else
+                {
+                    pinView.ColourType = PinDisplayType.LOCKED;
+                    pinView.ShowCircle = true;
+                }
             }
             else if (state == 3)
             {

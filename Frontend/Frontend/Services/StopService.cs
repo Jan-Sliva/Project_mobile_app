@@ -40,6 +40,8 @@ namespace Frontend.Services
 
         PinViewModel PinOfTheStop { get; set; }
 
+        bool? IsVisibleInState2;
+
         public StopService(Stop stopModel, AppShell appShell, MapService mapService, LocationChecker locationChecker, GameService gameService)
         {
             Model = stopModel;
@@ -48,6 +50,7 @@ namespace Frontend.Services
             MapService = mapService;
             LocationChecker = locationChecker;
             GameService = gameService;
+            if (Model.Position != null) IsVisibleInState2 = Model.Position.IsVisibleAsStopPosition;
 
             State = 0;
             if ((bool)Model.IsInitial)
@@ -64,8 +67,10 @@ namespace Frontend.Services
         {
             if (State == 1) return;
 
-
             if (State == 2 || State == 3) ViewModel.RemoveFromBar();
+
+            if (PinOfTheStop != null) MapService.SetPinViewModelToState(PinOfTheStop, 1, IsVisibleInState2);
+
             State = 1;
         }
 
@@ -76,7 +81,8 @@ namespace Frontend.Services
             if (State == 1 || State == 0) ViewModel.AddToBar();
             if (FirstlyVisible)
             {
-                MapService.AddNotStops(Model.PositionsDisplayAfterDisplay as List<MapPosition>);
+                if (Model.PositionsDisplayAfterDisplay != null) 
+                    MapService.AddNotStops(Model.PositionsDisplayAfterDisplay as List<MapPosition>);
 
                 if (Model.DisplayObjectsHints != null)
                 {
@@ -96,11 +102,11 @@ namespace Frontend.Services
                     }
                 }
 
-                if (FirstlyUnlocked) PinOfTheStop = MapService.AddStop(Model.Position, 2);
-
                 FirstlyVisible = false;
             }
 
+            if (Model.Position != null && PinOfTheStop == null) PinOfTheStop = MapService.AddStop(Model.Position, 2, IsVisibleInState2);
+            else if (PinOfTheStop != null) MapService.SetPinViewModelToState(PinOfTheStop, 2, IsVisibleInState2);
 
             RequierementToUnlock = Model.Passwords.Count;
             RequierementValue = 0;
@@ -111,14 +117,12 @@ namespace Frontend.Services
                 password.PasswordCompleted += OnPasswordRequierementDone;
             }
 
-            if (Model.Position != null && State != 2)
+            if (Model.Position != null)
             {
-                RequierementToUnlock++;
+                RequierementToUnlock++; 
                 var locationToCheck = new LocationToCheck(Model.Position.X, Model.Position.Y, Model.Position.Radius);
                 locationToCheck.LocationReached += OnPositionRequierementDone;
                 LocationChecker.AddLocation(locationToCheck);
-
-                MapService.SetPinViewModelToState(PinOfTheStop, 2);
             }
             else if (RequierementToUnlock == 0)
             {
@@ -135,7 +139,8 @@ namespace Frontend.Services
 
             if (FirstlyUnlocked)
             {
-                MapService.AddNotStops(Model.PositionsDisplayAfterUnlock as List<MapPosition>);
+                if (Model.PositionsDisplayAfterUnlock != null)
+                    MapService.AddNotStops(Model.PositionsDisplayAfterUnlock as List<MapPosition>);
 
                 if (Model.DisplayObjectsRewards != null)
                 {
@@ -145,10 +150,12 @@ namespace Frontend.Services
                     }
                 }
 
-                if (FirstlyVisible) PinOfTheStop = MapService.AddStop(Model.Position, 3);
-
                 FirstlyUnlocked = false;
             }
+
+
+            if (Model.Position != null && PinOfTheStop == null) PinOfTheStop = MapService.AddStop(Model.Position, 3, IsVisibleInState2);
+            else if (PinOfTheStop != null) MapService.SetPinViewModelToState(PinOfTheStop, 3, IsVisibleInState2);
 
             if (Model.Opens != null)
             {
@@ -172,8 +179,6 @@ namespace Frontend.Services
                 {
                     password.Unshow();
                 }
-
-                MapService.SetPinViewModelToState(PinOfTheStop, 3);
             }
 
             State = 3;
@@ -190,7 +195,8 @@ namespace Frontend.Services
 
             if (FirstlyUnlocked)
             {
-                MapService.AddNotStops(Model.PositionsDisplayAfterUnlock as List<MapPosition>);
+                if (Model.PositionsDisplayAfterUnlock != null) MapService.AddNotStops(Model.PositionsDisplayAfterUnlock as List<MapPosition>);
+
                 if (Model.DisplayObjectsRewards != null)
                 {
                     foreach (DisplayObjectStopDisplayAfterUnlock displayObject in Model.DisplayObjectsRewards)
@@ -201,13 +207,16 @@ namespace Frontend.Services
                 FirstlyUnlocked = false;
             }
 
+
+            if (Model.Position != null && PinOfTheStop == null) PinOfTheStop = MapService.AddStop(Model.Position, 3, IsVisibleInState2);
+            else if (PinOfTheStop != null) MapService.SetPinViewModelToState(PinOfTheStop, 3, IsVisibleInState2);
+
             if (State == 2)
             {
                 foreach (PasswordService password in Passwords)
                 {
                     password.Unshow();
                 }
-
             }
 
             State = 3;

@@ -26,15 +26,8 @@ namespace Frontend
 
             MainGame.LoadAndPlayGame(1, MainPage as AppShell);
 
+
             /*
-            locationChecker = new LocationChecker();
-
-            var location1 = new LocationToCheck(49.94202651288202, 14.327889264263597, 10);
-
-            location1.LocationReached += OnPositionReached;
-
-            locationChecker.AddLocation(location1);
-
             var Intro1 = new IntroductionViewModel(MainPage as AppShell);
 
             var Text1 = new Text() { Title = "Test1", OwnText = "doufám, že to funguje", PositionInIntroduction = 1};

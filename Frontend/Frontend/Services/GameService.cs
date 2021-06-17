@@ -20,6 +20,10 @@ namespace Frontend.Services
 
         IntroductionViewModel Introduction { get; set; }
 
+        DateTime StartingTime { get; set; }
+
+        TimeSpan LengthOfThisGame { get; set; }
+
         public async void LoadAndPlayGame(int id, AppShell appShell)
         {
             var restClient = new RestClient.RestClient();
@@ -40,28 +44,68 @@ namespace Frontend.Services
 
             Introduction = new IntroductionViewModel(AppShell, Model.Introduction.Title);
 
-            foreach(DisplayObject obj in Model.Introduction.DisplayObjects)
+            if (Model.Introduction.DisplayObjects != null)
             {
-                Introduction.AddDisplayObject(obj);
+                foreach (DisplayObject obj in Model.Introduction.DisplayObjects)
+                {
+                    Introduction.AddDisplayObject(obj);
+                }
             }
 
-            MapService.AddNotStops(Model.Introduction.MapPositions as List<MapPosition>);
+            Text InfoAboutGame = new Text()
+            {
+                Title = "Hráči, kteří se podíleli na této hře",
+                PositionInIntroduction = 0,
+                OwnText = ""
+            };
+            foreach(User user in Model.Owners)
+            {
+                InfoAboutGame.OwnText = InfoAboutGame.OwnText + user.UserName + " ";
+            }
+
+            Introduction.AddText(InfoAboutGame);
+
+            if (Model.Introduction.MapPositions != null) MapService.AddNotStops(Model.Introduction.MapPositions as List<MapPosition>);
+
+            StartingTime = DateTime.UtcNow;
 
             foreach (Stop stop in Model.Stops)
             {
                 SetUpStopModel(stop);
             }
+
+
         }
 
         public void End()
         {
             AppShell.RemoveAllFlyoutItems();
 
+            LengthOfThisGame = StartingTime - DateTime.UtcNow;
+
             var EndInfo = new IntroductionViewModel(AppShell, "Konec");
 
-            var EndText = new Text() { Title = "Dokončil jsi hru", OwnText = "Dokončil jsi testovací hru, doufám, že se ti líbila", PositionInIntroduction = 0 };
+            if (LengthOfThisGame.Minutes <= Model.Limit.Minutes)
+            {
 
-            EndInfo.AddText(EndText);
+                var EndText = new Text() { Title = "Úspěšně jsi dokončil hru", OwnText = "Hra ti trvala " + LengthOfThisGame.Minutes + " minut. "
+                                           + "Limit byl " + Model.Limit.Minutes + " minut.", PositionInIntroduction = 0 };
+
+                EndInfo.AddText(EndText);
+            }
+            else
+            {
+                var EndText = new Text()
+                {
+                    Title = "Hru jsi nestihnul v limitu",
+                    OwnText = "Hra ti trvala " + LengthOfThisGame.Minutes + " minut. "
+                                           + "Limit byl " + Model.Limit.Minutes + " minut.",
+                    PositionInIntroduction = 0
+                };
+
+                EndInfo.AddText(EndText);
+            }
+
         }
 
         private void SetUpStopModel(Stop stopModel)

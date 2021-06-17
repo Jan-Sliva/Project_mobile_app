@@ -18,6 +18,8 @@ namespace Frontend.Services
 
             Model.Service = this;
 
+            MapService = mapService;
+
             ViewModel = new ChoiceQuestionViewModel(appShell, textQuestion);
 
             ViewModel.ConfirmedQuestionEvent += OnConfirm;

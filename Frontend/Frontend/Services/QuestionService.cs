@@ -15,16 +15,22 @@ namespace Frontend.Services
 
         protected void ProcessChoice(Choice choice)
         {
-            foreach (ChoiceStop opening in choice.OpensStops)
+            if (choice.OpensStops != null)
             {
-                opening.Opens.Service.ProcessChange(opening.IfUnvisible, opening.IfVisible, opening.IfUnlocked, (int)opening.Value);
+                foreach (ChoiceStop opening in choice.OpensStops)
+                {
+                    opening.Opens.Service.ProcessChange(opening.IfUnvisible, opening.IfVisible, opening.IfUnlocked, (int)opening.Value);
+                }
             }
 
-            MapService.AddNotStops(choice.OpensMapPositions as List<MapPosition>);
+            if (choice.OpensMapPositions != null) MapService.AddNotStops(choice.OpensMapPositions as List<MapPosition>);
 
-            foreach (Question question in choice.OpensQuestions)
+            if (choice.OpensQuestions != null)
             {
-                question.Service.Ask();
+                foreach (Question question in choice.OpensQuestions)
+                {
+                    question.Service.Ask();
+                }
             }
         }
     }

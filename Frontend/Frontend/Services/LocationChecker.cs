@@ -22,52 +22,28 @@ namespace Frontend.Services
 
         public void AddLocation(LocationToCheck newLocation)
         {
-            CheckingThread.Abort();
-
             Locations.Add(newLocation);
-
-            CheckingThread = new Thread(CheckLocation);
-            CheckingThread.IsBackground = true;
-            CheckingThread.Start(this);
         }
 
         public void AddRangeOfLocations(IEnumerable<LocationToCheck> newLocations)
         {
-            CheckingThread.Abort();
-
-            foreach(LocationToCheck newLocation in newLocations)
+            foreach (LocationToCheck newLocation in newLocations)
             {
                 Locations.Add(newLocation);
             }
-
-            CheckingThread = new Thread(CheckLocation);
-            CheckingThread.IsBackground = true;
-            CheckingThread.Start(this);
         }
 
         public void RemoveLocation(LocationToCheck location)
         {
-            CheckingThread.Abort();
-
-            Locations.Remove(location);
-
-            CheckingThread = new Thread(CheckLocation);
-            CheckingThread.IsBackground = true;
-            CheckingThread.Start(this);
+            if (Locations.Contains(location)) Locations.Remove(location);
         }
 
         public void RemoveRangeOfLocations(IEnumerable<LocationToCheck> locations)
         {
-            CheckingThread.Abort();
-
             foreach (LocationToCheck location in locations)
             {
-                Locations.Add(location);
+                if (Locations.Contains(location)) Locations.Remove(location);
             }
-
-            CheckingThread = new Thread(CheckLocation);
-            CheckingThread.IsBackground = true;
-            CheckingThread.Start(this);
         }
 
         static async void CheckLocation(Object locationsCheckerObject)
@@ -86,39 +62,38 @@ namespace Frontend.Services
                         location.Latitude, location.Longitude, DistanceUnits.Kilometers) * 1000 < 
                         location.Radius + Math.Min(15, (double)currentLocation.Accuracy))
                     {
-                        location.RaiseLocationReached();
-
-                        // this removes location from the list and reloads the thread
-                        var interruptThread = new Thread(RemoveLocationFromThread);
-                        interruptThread.IsBackground = true;
-                        interruptThread.Start(new ThreadWithLocation() { Location = location, LocationChecker = locationsChecker, Thread = Thread.CurrentThread });
+                        var InterruptThread = new Thread(ProcessPositionWithThread);
+                        InterruptThread.IsBackground = true;
+                        InterruptThread.Start(new LocationWithThread() { Thread = Thread.CurrentThread, Location = location, LocationChecker = locationsChecker });
+                        while (true) ;
                     }
                 }
                 Thread.Sleep(500);
             }
         }
 
-        static void RemoveLocationFromThread(Object threadWithLocationObject)
+        static void ProcessPositionWithThread (Object locationWithThreadObject)
         {
-            ThreadWithLocation threadWithLocation = threadWithLocationObject as ThreadWithLocation;
+            var locationWithThread = locationWithThreadObject as LocationWithThread;
 
-            threadWithLocation.Thread.Abort();
+            locationWithThread.Thread.Abort();
 
-            threadWithLocation.LocationChecker.Locations.Remove(threadWithLocation.Location);
+            locationWithThread.LocationChecker.RemoveLocation(locationWithThread.Location);
+            locationWithThread.Location.RaiseLocationReached();
 
-            threadWithLocation.LocationChecker.CheckingThread = new Thread(CheckLocation);
-            threadWithLocation.LocationChecker.CheckingThread.IsBackground = true;
-            threadWithLocation.LocationChecker.CheckingThread.Start(threadWithLocation.LocationChecker);
+            locationWithThread.LocationChecker.CheckingThread = new Thread(CheckLocation);
+            locationWithThread.LocationChecker.CheckingThread.IsBackground = true;
+            locationWithThread.LocationChecker.CheckingThread.Start(locationWithThread.LocationChecker);
         }
     }
 
-    public class ThreadWithLocation
+    public class LocationWithThread
     {
-        public LocationToCheck Location { get; set; }
+        public Thread Thread;
 
-        public LocationChecker LocationChecker { get; set; }
+        public LocationToCheck Location;
 
-        public Thread Thread { get; set; }
+        public LocationChecker LocationChecker;
     }
 
     public class LocationToCheck
