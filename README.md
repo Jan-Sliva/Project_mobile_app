@@ -1,2 +1,2 @@
-# Project_mobile_app
+# Project mobile app
 Mobile app with server and Api
