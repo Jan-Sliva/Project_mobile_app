@@ -74,7 +74,6 @@ namespace Frontend.Services
                 SetUpStopModel(stop);
             }
 
-
         }
 
         public void End()

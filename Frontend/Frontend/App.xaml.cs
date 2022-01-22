@@ -26,7 +26,6 @@ namespace Frontend
 
             MainGame.LoadAndPlayGame(1, MainPage as AppShell);
 
-
             /*
             var Intro1 = new IntroductionViewModel(MainPage as AppShell);
 

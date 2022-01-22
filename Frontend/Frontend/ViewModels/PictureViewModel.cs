@@ -9,7 +9,7 @@ namespace Frontend.ViewModels
     public class PictureViewModel : DisplayObjectViewModel 
     {
         public byte[] ImageArray { get; set; }
-        public PictureViewModel(InfoScreenViewModel infoScreenViewModel, Picture picture, int position)
+        public PictureViewModel(InfoScreenViewModel infoScreenViewModel, Picture picture, int position) // TODO
         {
             this.Title = picture.Title;
             this.ImageArray = picture.Image;

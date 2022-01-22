@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Frontend.Models;
 using Frontend.ViewModels;
+using Xamarin.Essentials;
 
 namespace Frontend.Services
 {
@@ -187,6 +188,11 @@ namespace Frontend.Services
             {
                 GameService.End();
             }
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                GameService.End();
+            });
         }
 
         private void SetAsUnlockedWithoutActions()

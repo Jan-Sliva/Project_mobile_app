@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace Frontend.ViewModels
 {
@@ -15,8 +16,13 @@ namespace Frontend.ViewModels
                 return false;
 
             backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                onChanged?.Invoke();
+                OnPropertyChanged(propertyName);
+            });
+
             return true;
         }
 
