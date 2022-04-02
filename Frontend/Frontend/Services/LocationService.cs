@@ -15,8 +15,9 @@ namespace Frontend.Services
 
                 return location;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return await GetLastKnownLocation();
             }
         }
@@ -29,8 +30,9 @@ namespace Frontend.Services
 
                 return location;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 return null;
             }
         }

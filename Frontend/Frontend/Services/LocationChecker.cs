@@ -14,7 +14,8 @@ using Xamarin.Forms;
         private List<LocationToCheck> Locations { get; }
         public LocationChecker()
         {
-            Locations = new List<LocationToCheck>(); _ = CheckLocationPeriodically();
+            Locations = new List<LocationToCheck>();
+            _ = CheckLocationPeriodically();
         }
         public void AddLocation(LocationToCheck newLocation)
         {
@@ -51,7 +52,6 @@ using Xamarin.Forms;
                     catch (Exception e)
                     {
                         //TODO
-                        Console.WriteLine(e.Message);
                         Console.WriteLine(e.ToString());
                     }
 

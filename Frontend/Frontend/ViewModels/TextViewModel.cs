@@ -15,7 +15,6 @@ namespace Frontend.ViewModels
             this.Title = text.Title;
             this.Text = text.OwnText;
             this.Position = position;
-            this.BaseObject = text;
             this.InfoScreenViewModel = infoScreenViewModel;
         } 
     }

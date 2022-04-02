@@ -41,12 +41,12 @@ namespace Frontend.ViewModels
 
         private string Label { get; set; }
 
-        private PinDisplayType _colourType;
+        private PinDisplayType _state;
 
-        public PinDisplayType ColourType
+        public PinDisplayType State
         {
-            get { return _colourType; }
-            set { SetProperty(ref _colourType, value); }
+            get { return _state; }
+            set { SetProperty(ref _state, value); }
         }
 
         private bool _showCircle;
@@ -57,9 +57,7 @@ namespace Frontend.ViewModels
             set { SetProperty(ref _showCircle, value); }
         }
 
-        public MapPosition MapPosition { get;  }
-
-        public PinViewModel(MapViewModel mapView, MapPosition position, PinDisplayType type, bool showCircle)
+        public PinViewModel(MapViewModel mapView, MapPosition position, PinDisplayType state)
         {
             X = position.X;
             Y = position.Y;
@@ -67,9 +65,7 @@ namespace Frontend.ViewModels
             Label = position.Description;
             if (Label == null) Label = "";
             MapView = mapView;
-            MapPosition = position;
-            _colourType = type;
-            _showCircle = showCircle;
+            State = state;
 
             this.PropertyChanged += (_, __) => RefreshPinOnMap();
             this.PropertyChanged += (_, __) => RefreshCircleOnMap();
@@ -112,6 +108,11 @@ namespace Frontend.ViewModels
             RefreshCircleOnMap();
         }
 
+        public void SetState(PinDisplayType state)
+        {
+            State = state;
+
+        }
 
         private float GetColourByDisplayType(PinDisplayType pinDisplayType)
         {

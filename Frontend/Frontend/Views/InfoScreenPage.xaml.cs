@@ -11,16 +11,17 @@ using Xamarin.Forms.Xaml;
 namespace Frontend.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class StopPage : ContentPage
+    public partial class InfoScreenPage : ContentPage
     {
-        public StopPage(StopViewModel stopViewModel)
+        public InfoScreenPage(InfoScreenViewModel infoScreenViewModel)
         {
-            BindingContext = stopViewModel;
+            BindingContext = infoScreenViewModel;
+            this.SetBinding(TitleProperty, "Title");
             InitializeComponent();
         }
     }
 
-    public class StopDataTemplateSelector : DataTemplateSelector
+    public class InfoScreenDataTemplateSelector : DataTemplateSelector
     {
         public DataTemplate TextTemplate { get; set; }
         public DataTemplate DonePasswordTemplate { get; set; }
@@ -28,10 +29,10 @@ namespace Frontend.Views
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (item.GetType().Equals(typeof(TextViewModel))) return TextTemplate;
-            else if (item.GetType().Equals(typeof(GamePasswordViewModel)))
+            if (item is TextViewModel) return TextTemplate;
+            else if (item is GamePasswordViewModel password)
             {
-                if ((item as GamePasswordViewModel).IsDone) return DonePasswordTemplate;
+                if (password.IsDone) return DonePasswordTemplate;
                 else return NotDonePasswordTemplate;
             }
             return null;
