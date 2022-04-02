@@ -14,7 +14,6 @@ namespace Frontend.ViewModels
             this.Title = picture.Title;
             this.ImageArray = picture.Image;
             this.Position = position;
-            this.BaseObject = picture;
             this.InfoScreenViewModel = infoScreenViewModel;
         }
     }

@@ -7,7 +7,7 @@ using Xamarin.Essentials;
 
 namespace Frontend.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
 
         protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)
@@ -17,11 +17,8 @@ namespace Frontend.ViewModels
 
             backingStore = value;
 
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                onChanged?.Invoke();
-                OnPropertyChanged(propertyName);
-            });
+            onChanged?.Invoke();
+            OnPropertyChanged(propertyName);
 
             return true;
         }

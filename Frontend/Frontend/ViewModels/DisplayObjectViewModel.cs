@@ -11,9 +11,7 @@ namespace Frontend.ViewModels
 
         public int Position { get; set; }
 
-        public object BaseObject { get; set; }
-
-        protected InfoScreenViewModel InfoScreenViewModel;
+        protected InfoScreenViewModel InfoScreenViewModel { get; set; }
 
     }
 }

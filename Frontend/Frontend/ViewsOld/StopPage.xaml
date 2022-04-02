@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Frontend.Views"
+             xmlns:model="clr-namespace:Frontend.ViewModels"
+             x:Class="Frontend.Views.StopPage"
+             >
+    <ContentPage.Content>
+        <CollectionView x:Name="collectionView" ItemTemplate="{StaticResource stopDataTemplateSelector}"
+                        ItemsSource="{Binding DisplayObjects}"
+                        x:FieldModifier="Public"/>
+    </ContentPage.Content>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="textTemplate">
+                <StackLayout Padding="10" x:DataType="model:TextViewModel">
+                    <Label Text="{Binding Title}" 
+                            LineBreakMode="WordWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" 
+                            TextType="Html"/>
+                    <Label Text="{Binding Text}" 
+                            LineBreakMode="WordWrap"
+                            Style="{DynamicResource ListItemDetailTextStyle}"
+                            FontSize="13" 
+                            TextType="Html"/>
+                </StackLayout>
+            </DataTemplate>
+            <DataTemplate x:Key="notDonePasswordTemplate">
+                <StackLayout Padding="10" x:DataType="model:GamePasswordViewModel">
+                    <Label Text="{Binding Title}" 
+                            LineBreakMode="WordWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" 
+                            TextType="Html"/>
+                    <Entry
+                        Keyboard="Plain"
+                        ReturnType="Done"
+                        IsSpellCheckEnabled="False"
+                        IsTextPredictionEnabled="False"
+                        Placeholder="Zadejte heslo"
+                        Text="{Binding EnteredPassword, Mode=TwoWay}"/>
+                    <Button
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        BorderColor="#332196F3"
+                        Text="Potvrdit"
+                        HorizontalOptions="End"
+                        Command="{Binding ConfirmPassword}"
+                        />
+
+                </StackLayout>
+            </DataTemplate>
+            <DataTemplate x:Key="donePasswordTemplate">
+                <StackLayout Padding="10" x:DataType="model:GamePasswordViewModel">
+                    <Label Text="{Binding Title}" 
+                            LineBreakMode="WordWrap" 
+                            Style="{DynamicResource ListItemTextStyle}" 
+                            FontSize="16" 
+                            TextType="Html"/>
+                    <Label Text="Toto heslo už jste zodpověděli správně" 
+                            LineBreakMode="WordWrap"
+                            Style="{DynamicResource ListItemDetailTextStyle}"
+                            FontSize="10" />
+                </StackLayout>
+            </DataTemplate>
+            <local:StopDataTemplateSelector x:Key="stopDataTemplateSelector"
+                TextTemplate="{StaticResource textTemplate}"
+                DonePasswordTemplate="{StaticResource donePasswordTemplate}" 
+                NotDonePasswordTemplate ="{StaticResource notDonePasswordTemplate}"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+</ContentPage>

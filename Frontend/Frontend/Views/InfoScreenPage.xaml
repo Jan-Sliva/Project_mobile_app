@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Frontend.Views"
              xmlns:model="clr-namespace:Frontend.ViewModels"
-             x:Class="Frontend.Views.StopPage"
-             >
+             x:Class="Frontend.Views.InfoScreenPage">
+
     <ContentPage.Content>
-        <CollectionView x:Name="collectionView" ItemTemplate="{StaticResource stopDataTemplateSelector}" ItemsSource="{Binding DisplayObjects}"
+        <CollectionView x:Name="collectionView" ItemTemplate="{StaticResource InfoScreenDataTemplateSelector}"
+                        ItemsSource="{Binding DisplayObjects}"
                         x:FieldModifier="Public"/>
     </ContentPage.Content>
 
@@ -58,8 +59,8 @@
                             Style="{DynamicResource ListItemTextStyle}" 
                             FontSize="16" 
                             TextType="Html"/>
-                    <Label Text="Toto heslo už jste zodpověděli správně" 
-                            LineBreakMode="WordWrap"
+                    <Label Text="Toto heslo už jste zodpověděli správně"
+                    LineBreakMode="WordWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="10" />
                 </StackLayout>
