@@ -186,13 +186,12 @@ namespace Frontend.Services
 
             if ((bool)Model.IsFinal)
             {
-                GameService.End();
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    GameService.End();
+                });
             }
 
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                GameService.End();
-            });
         }
 
         private void SetAsUnlockedWithoutActions()

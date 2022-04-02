@@ -11,7 +11,7 @@ namespace Frontend.RestClient
 {
     public class RestClient
     {
-        private const string WebServiceUrl = "http://10.0.0.142:52721/api/";
+        private const string WebServiceUrl = "http://10.0.0.101:52721/api/";
 
         public async Task<GameResource> GetFullGameByIdAsync(int id)
         {

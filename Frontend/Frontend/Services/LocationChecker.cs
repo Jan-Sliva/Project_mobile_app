@@ -107,7 +107,6 @@ using Xamarin.Forms;
         public void WriteLocation()
         {
             Console.WriteLine("Loc: " + this.Latitude + ", " + this.Longitude + ", radius: " + this.Radius);
-
         }
     }
 }
