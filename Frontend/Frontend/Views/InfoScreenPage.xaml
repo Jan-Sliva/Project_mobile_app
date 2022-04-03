@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Frontend.Views"
              xmlns:model="clr-namespace:Frontend.ViewModels"
-             x:Class="Frontend.Views.InfoScreenPage">
+             x:Class="Frontend.Views.InfoScreenPage"
+             Title="{Binding Title}">
 
     <ContentPage.Content>
         <CollectionView x:Name="collectionView" ItemTemplate="{StaticResource InfoScreenDataTemplateSelector}"
@@ -71,4 +72,4 @@
                 NotDonePasswordTemplate ="{StaticResource notDonePasswordTemplate}"/>
         </ResourceDictionary>
     </ContentPage.Resources>
-</ContentPage>
+</local:BasePage>

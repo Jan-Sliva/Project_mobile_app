@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms.Maps;
-using Xamarin.Forms.Color;
+using Xamarin.Forms;
 
-namespace Frontend.Custom
+namespace Frontend.Smart
 {
-    public class ColouredPin : Pin
+    public class SmartPin : Cell
     {
-        public ColouredPin() : base() { Colour = 0; }
+        public Position Position { get; set; }
+
+        public string Label { get; set; }
 
         public float Colour { get; set; } // hue
 
@@ -19,5 +21,7 @@ namespace Frontend.Custom
         public Color StrokeColour { get; set; }
 
         public float StrokeWidth { get; set; }
+
+        public bool ShowCircle { get; set; }
     }
 }

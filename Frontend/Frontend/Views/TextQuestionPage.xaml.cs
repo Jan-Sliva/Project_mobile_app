@@ -15,8 +15,8 @@ namespace Frontend.Views
     {
         public TextQuestionPage(TextQuestionViewModel textQuestionViewModel)
         {
-            InitializeComponent();
             BindingContext = textQuestionViewModel;
+            InitializeComponent();
         }
     }
 }

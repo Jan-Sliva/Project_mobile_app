@@ -1,4 +1,5 @@
 ﻿using Frontend.Models;
+using Frontend.Smart;
 using Frontend.Views;
 using System;
 using System.Collections.Generic;
@@ -9,47 +10,36 @@ using Xamarin.Forms;
 
 namespace Frontend.ViewModels
 {
-    public class InfoScreenViewModel : PageViewModel
+    public abstract class InfoScreenViewModel<T> : PageViewModel<T> where T : BasePage
     {
+        public SmartCollection<DisplayObjectViewModel<T>> DisplayObjects { get; set; }
 
-        public ObservableCollection<DisplayObjectViewModel> DisplayObjects { get; set; }
-
-        public InfoScreenViewModel()
+        public InfoScreenViewModel(AppShellViewModel appShell) : base(appShell)
         {
-            this.Title = "*extrémní*";
-
-            this.IconFileName = "icon_stop.png";
-
-            this.Page = new InfoScreenPage(this);
-
-            SetUpFlyOutItem();
-
-            DisplayObjects = new ObservableCollection<DisplayObjectViewModel>();
-
-            //AddedDisplayObject += UpdateDisplayObjects;
+            DisplayObjects = new SmartCollection<DisplayObjectViewModel<T>>();
         }
 
-        public void AddDisplayObject(DisplayObjectViewModel displayObject)
+        public void AddDisplayObject(DisplayObjectViewModel<T> displayObject)
         {
             DisplayObjects.Insert(displayObject.Position, displayObject);
         }
 
-        public void RemoveDisplayObject(DisplayObjectViewModel displayObject)
+        public void RemoveDisplayObject(DisplayObjectViewModel<T> displayObject)
         {
             DisplayObjects.Remove(displayObject);
         }
 
-        public void AddDisplayObjects(ICollection<DisplayObjectViewModel> displayObjects)
+        public void AddDisplayObjects(ICollection<DisplayObjectViewModel<T>> displayObjects)
         {
-            foreach (DisplayObjectViewModel displayObject in displayObjects)
+            foreach (DisplayObjectViewModel<T> displayObject in displayObjects)
             {
                 this.AddDisplayObject(displayObject);
             }
         }
 
-        public void RemoveDisplayObjects(ICollection<DisplayObjectViewModel> displayObjects)
+        public void RemoveDisplayObjects(ICollection<DisplayObjectViewModel<T>> displayObjects)
         {
-            foreach (DisplayObjectViewModel displayObject in displayObjects)
+            foreach (DisplayObjectViewModel<T> displayObject in displayObjects)
             {
                 this.RemoveDisplayObject(displayObject);
             }

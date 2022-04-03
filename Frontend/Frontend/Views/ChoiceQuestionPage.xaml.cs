@@ -15,8 +15,8 @@ namespace Frontend.Views
     {
         public ChoiceQuestionPage(ChoiceQuestionViewModel choiceQuestion)
         {
-            InitializeComponent();
             BindingContext = choiceQuestion;
+            InitializeComponent();
         }
     }
 }

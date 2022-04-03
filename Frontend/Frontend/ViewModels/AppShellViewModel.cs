@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Frontend.Smart;
+using Frontend.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -9,7 +11,7 @@ namespace Frontend.ViewModels
     // controls flyout items
     public class AppShellViewModel
     {
-        public ObservableCollection<FlyoutItem> FlyoutItems { get; set; }
+        public SmartCollection<FlyoutItem> FlyoutItems { get; set; }
 
         private AppShell AppShell { get; set; }
 
@@ -17,20 +19,20 @@ namespace Frontend.ViewModels
         {
             AppShell = new AppShell(this);
 
-            FlyoutItems = new ObservableCollection<FlyoutItem>();
+            FlyoutItems = new SmartCollection<FlyoutItem>();
         }
 
-        public void ShowViewModel(PageViewModel viewModel)
+        public void ShowViewModel<T>(PageViewModel<T> viewModel) where T : BasePage
         {
             FlyoutItems.Add(viewModel.FlyoutItem);
         }
 
-        public void ShowAtPosition(PageViewModel viewModel, int pos)
+        public void ShowAtPosition<T>(PageViewModel<T> viewModel, int pos) where T : BasePage
         {
             FlyoutItems.Insert(pos, viewModel.FlyoutItem);
         }
 
-        public void HideViewModel(PageViewModel viewModel)
+        public void HideViewModel<T>(PageViewModel<T> viewModel) where T : BasePage
         {
             FlyoutItems.Remove(viewModel.FlyoutItem);
         }

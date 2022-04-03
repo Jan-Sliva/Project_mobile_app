@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Frontend.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class InfoScreenPage : ContentPage
+    public partial class InfoScreenPage : BasePage
     {
-        public InfoScreenPage(InfoScreenViewModel infoScreenViewModel)
+        public static InfoScreenPage Constructor<T>(PageViewModel<T> viewModel) where T : BasePage
         {
-            BindingContext = infoScreenViewModel;
-            this.SetBinding(TitleProperty, "Title");
-            InitializeComponent();
+            InfoScreenPage page = new InfoScreenPage();
+
+            page.Init(viewModel);
+            page.InitializeComponent();
+
+            return page;
         }
     }
 
@@ -29,8 +31,8 @@ namespace Frontend.Views
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (item is TextViewModel) return TextTemplate;
-            else if (item is GamePasswordViewModel password)
+            if (item is TextViewModel<InfoScreenPage>) return TextTemplate;
+            else if (item is GamePasswordViewModel<InfoScreenPage> password)
             {
                 if (password.IsDone) return DonePasswordTemplate;
                 else return NotDonePasswordTemplate;

@@ -1,30 +1,34 @@
-﻿using System;
+﻿using Frontend.Views;
+using System;
+using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace Frontend.ViewModels
 {
-    public abstract class PageViewModel : BaseViewModel
+    public abstract class PageViewModel<T> : BaseViewModel where T : BasePage
     {
-        public ContentPage Page { get; set; }
+        private string _title;
+        public string Title { get => _title; set => SetProperty(ref _title, value); }
 
-        public string Title { get; set; }
+        private string _iconFileName;
+        public string IconFileName { get => _iconFileName; set => SetProperty(ref _iconFileName, value); }
 
-        public string IconFileName { get; set; }
+        public BasePage Page { get; protected set; }
 
-        public FlyoutItem FlyoutItem { get; set; }
+        public FlyoutItem FlyoutItem { get; protected set; }
 
-        public ShellContent ShellContent { get; set; }
+        public ShellContent ShellContent { get; protected set; }
 
-        public AppShellViewModel AppShell { get; set; }
+        public AppShellViewModel AppShell { get; protected set; }
 
-        public void UpdateFlyOutItem()
+        private bool _isVisible = false;
+
+        public PageViewModel(AppShellViewModel appShell)
         {
-            FlyoutItem.Title = Title;
-            FlyoutItem.Icon = IconFileName;
-        }
+            this.AppShell = appShell;
 
-        public void SetUpFlyOutItem()
-        {
+            this.Page = (T)Activator.CreateInstance(typeof(T), new object[] { this });
+
             FlyoutItem = new FlyoutItem()
             {
                 Title = this.Title,
@@ -36,19 +40,41 @@ namespace Frontend.ViewModels
             FlyoutItem.Items.Add(ShellContent);
         }
 
+        public void ChangedProperty(object sender, PropertyChangedEventArgs e)
+        {
+            string propertyName = e.PropertyName;
+
+            if (propertyName == nameof(Title) || propertyName == nameof(IconFileName))
+            {
+                UpdateFlyoutItem();
+            }
+        }
+
+        public void UpdateFlyoutItem()
+        {
+            FlyoutItem.Title = Title;
+            FlyoutItem.Icon = IconFileName;
+        }
+
         public void Show()
         {
-            AppShell.ShowViewModel(this);
+            if (!_isVisible) AppShell.ShowViewModel(this);
+
+            _isVisible = true;
         }
 
         public void Hide()
         {
-            AppShell.HideViewModel(this);
+            if (_isVisible) AppShell.HideViewModel(this);
+
+            _isVisible = false;
         }
 
         public void ShowAtPos(int pos)
         {
+            Hide();
             AppShell.ShowAtPosition(this, pos);
+            _isVisible = true;
         }
     }
 }
