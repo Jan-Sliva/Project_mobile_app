@@ -11,11 +11,11 @@ using Xamarin.Forms.Xaml;
 namespace Frontend.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TextQuestionPage : ContentPage
+    public partial class TextQuestionPage : BasePage
     {
-        public TextQuestionPage(TextQuestionViewModel textQuestionViewModel)
+        public TextQuestionPage(TextQuestionViewModel viewModel)
         {
-            BindingContext = textQuestionViewModel;
+            Init(viewModel);
             InitializeComponent();
         }
     }

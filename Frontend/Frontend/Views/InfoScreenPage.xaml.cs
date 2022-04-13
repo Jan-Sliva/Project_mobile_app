@@ -12,14 +12,11 @@ namespace Frontend.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InfoScreenPage : BasePage
     {
-        public static InfoScreenPage Constructor<T>(PageViewModel<T> viewModel) where T : BasePage
+        public InfoScreenPage(InfoScreenViewModel viewModel)
         {
-            InfoScreenPage page = new InfoScreenPage();
+            Init(viewModel);
+            InitializeComponent();
 
-            page.Init(viewModel);
-            page.InitializeComponent();
-
-            return page;
         }
     }
 
@@ -31,8 +28,8 @@ namespace Frontend.Views
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            if (item is TextViewModel<InfoScreenPage>) return TextTemplate;
-            else if (item is GamePasswordViewModel<InfoScreenPage> password)
+            if (item is TextViewModel) return TextTemplate;
+            else if (item is GamePasswordViewModel password)
             {
                 if (password.IsDone) return DonePasswordTemplate;
                 else return NotDonePasswordTemplate;

@@ -11,11 +11,11 @@ using Xamarin.Forms.Xaml;
 namespace Frontend.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ChoiceQuestionPage : ContentPage
+    public partial class ChoiceQuestionPage : BasePage
     {
         public ChoiceQuestionPage(ChoiceQuestionViewModel choiceQuestion)
         {
-            BindingContext = choiceQuestion;
+            Init(choiceQuestion);
             InitializeComponent();
         }
     }

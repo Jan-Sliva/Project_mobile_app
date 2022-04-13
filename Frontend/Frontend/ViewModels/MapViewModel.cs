@@ -10,9 +10,9 @@ using Frontend.Smart;
 
 namespace Frontend.ViewModels
 {
-    public class MapViewModel<T> : PageViewModel<T> where T : BasePage
+    public class MapViewModel : PageViewModel<MapPage>
     {
-        public SmartCollection<PinViewModel<T>> PinViewModels { get; set; }
+        public SmartCollection<PinViewModel> PinViewModels { get; set; }
 
         public MapViewModel(AppShellViewModel appShell) : base(appShell)
         {
@@ -20,15 +20,15 @@ namespace Frontend.ViewModels
 
             this.IconFileName = "icon_map.png";
 
-            this.PinViewModels = new SmartCollection<PinViewModel<T>>();
+            this.PinViewModels = new SmartCollection<PinViewModel>();
         }
 
-        public void AddPinViewModel(PinViewModel<T> addedPin)
+        public void AddPinViewModel(PinViewModel addedPin)
         {
             PinViewModels.Add(addedPin);
         }
 
-        public void RemovePinViewModel(PinViewModel<T> removedPin)
+        public void RemovePinViewModel(PinViewModel removedPin)
         {
             PinViewModels.Remove(removedPin);
         }

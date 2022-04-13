@@ -18,7 +18,7 @@ namespace Frontend.ViewModels
         UNLOCKED,
         NOT_STOP
     }
-    public class PinViewModel<T> : BaseViewModel where T : BasePage
+    public class PinViewModel : BaseViewModel
     {
         private PinDisplayType _state;
         public PinDisplayType State { get  => _state; set => SetProperty(ref _state, value); }
@@ -43,7 +43,7 @@ namespace Frontend.ViewModels
 
         private bool _isVisible = false;
 
-        private MapViewModel<T> MapView;
+        private MapViewModel MapView;
 
         private const float _lockedPinColour = PinColours.Orange;
 
@@ -52,7 +52,7 @@ namespace Frontend.ViewModels
         private const float _notStopPinColour = PinColours.Violet;
 
 
-        public PinViewModel(MapViewModel<T> mapView, MapPosition position, PinDisplayType state)
+        public PinViewModel(MapViewModel mapView, MapPosition position, PinDisplayType state)
         {
             Position = new Position(position.X, position.Y);
             Radius = position.Radius;
@@ -60,13 +60,11 @@ namespace Frontend.ViewModels
             if (Label == null) Label = "";
             MapView = mapView;
             State = state;
-
-            PropertyChanged += ChangedProperty;
         }
 
-        private void ChangedProperty(object sender, PropertyChangedEventArgs e)
+        protected new void OnPropertyChanged(string propertyName)
         {
-            string propertyName = e.PropertyName;
+            base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(State))
             {

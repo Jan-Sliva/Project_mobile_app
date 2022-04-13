@@ -13,7 +13,7 @@ namespace Frontend.ViewModels
         private string _iconFileName;
         public string IconFileName { get => _iconFileName; set => SetProperty(ref _iconFileName, value); }
 
-        public BasePage Page { get; protected set; }
+        public T Page { get; protected set; }
 
         public FlyoutItem FlyoutItem { get; protected set; }
 
@@ -32,7 +32,7 @@ namespace Frontend.ViewModels
             FlyoutItem = new FlyoutItem()
             {
                 Title = this.Title,
-                Icon = IconFileName,
+                Icon = this.IconFileName,
             };
 
             ShellContent = new ShellContent { Content = this.Page };
@@ -40,9 +40,9 @@ namespace Frontend.ViewModels
             FlyoutItem.Items.Add(ShellContent);
         }
 
-        public void ChangedProperty(object sender, PropertyChangedEventArgs e)
+        protected new void OnPropertyChanged(string propertyName)
         {
-            string propertyName = e.PropertyName;
+            base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(Title) || propertyName == nameof(IconFileName))
             {

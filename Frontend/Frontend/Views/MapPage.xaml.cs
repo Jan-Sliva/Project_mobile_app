@@ -18,15 +18,10 @@ namespace Frontend.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : BasePage
     {
-        public static MapPage Constructor<T>(PageViewModel<T> viewModel) where T : BasePage
+        public MapPage(MapViewModel viewModel)
         {
-            MapPage page = new MapPage();
-
-            page.Init(viewModel);
-            page.InitializeComponent();
-
-            return page;
+            Init(viewModel);
+            InitializeComponent();
         }
-
     }
 }

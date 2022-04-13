@@ -10,33 +10,28 @@ namespace Frontend.ViewModels
     public class GamePasswordViewModel : DisplayObjectViewModel
     {
         private string _enteredPassword;
-
-        public string EnteredPassword
-        {
-            get { return _enteredPassword; }
-            set { _enteredPassword = value; }
-        }
+        public string EnteredPassword { get => _enteredPassword; set => SetProperty(ref _enteredPassword, value); }
 
         private bool _isDone;
-
-        public bool IsDone
-        {
-            get { return _isDone; }
-            set { SetProperty(ref _isDone, value); }
-        }
+        public bool IsDone { get => _isDone; set => SetProperty(ref _isDone, value); }
 
         public Command ConfirmPassword { get; }
 
-        public GamePasswordViewModel(InfoScreenViewModel infoScreenViewModel, PasswordGameRequirement password, int position = 0)
+        public GamePasswordViewModel(PasswordGameRequirement password, int position = 0)
         {
             this.Title = password.Question;
             this.Position = position;
-            this.BaseObject = password;
             this.IsDone = false;
+            this.EnteredPassword = "";
             this.ConfirmPassword = new Command(OnPasswordConfirm);
-            this.InfoScreenViewModel = infoScreenViewModel;
+        }
 
-            this.PropertyChanged += (_, __) => InfoScreenViewModel.UpdateDisplayObject(this);
+        protected void OnPropertyChange(string propertyName)
+        {
+            if (propertyName == nameof(IsDone))
+            {
+                if (!_isDone) EnteredPassword = "";
+            }
         }
 
         public event ConfirmedPasswordEventHandler ConfirmedPasswordEvent;
@@ -45,8 +40,8 @@ namespace Frontend.ViewModels
 
         public void OnPasswordConfirm()
         {
-            ConfirmedPasswordEvent(this, new ConfirmedTextEventArgs(this.EnteredPassword));
-            SetProperty(ref _enteredPassword, "");
+            ConfirmedPasswordEvent?.Invoke(this, new ConfirmedTextEventArgs(this.EnteredPassword));
+            EnteredPassword = "";
         }
     }
 
