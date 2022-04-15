@@ -8,7 +8,6 @@ namespace Frontend.Models
 {
     public class Stop : DbBase
     {
-        public StopService Service;
         public string Name { get; set; } // HTML
 
         public bool? IsFinal { get; set; }

@@ -22,7 +22,7 @@ namespace Frontend.ViewModels
 
         public void RaiseChoiceSubmitted()
         {
-            ChoiceSubmitted.Invoke(this, EventArgs.Empty);
+            ChoiceSubmitted?.Invoke(this, EventArgs.Empty);
         }
 
         public ChoiceForChoiceQuestionViewModel(ChoiceQuestionViewModel choiceQuestion, ChoiceForChoiceQuestion choiceForChoiceQuestion)
@@ -44,7 +44,7 @@ namespace Frontend.ViewModels
 
         public void OnCheckBoxChanged()
         {
-            if (IsChosen) ChoiceQuestion.SetAllOtherToFalse(this);
+            if (_isChosen) ChoiceQuestion.SetAllOtherToFalse(this);
         }
     }
 }

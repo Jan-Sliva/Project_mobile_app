@@ -14,13 +14,11 @@ namespace Frontend.ViewModels
     {
         public SmartCollection<PinViewModel> PinViewModels { get; set; }
 
-        public MapViewModel(AppShellViewModel appShell) : base(appShell)
+        public MapViewModel(AppShellViewModel appShell) : base(appShell, "Mapa", "icon_map.png")
         {
-            this.Title = "Mapa";
-
-            this.IconFileName = "icon_map.png";
-
             this.PinViewModels = new SmartCollection<PinViewModel>();
+
+            ShowAtPos(1);
         }
 
         public void AddPinViewModel(PinViewModel addedPin)

@@ -14,8 +14,6 @@ namespace Frontend.Services
 
         AppShell AppShell { get; set; }
 
-        MapService MapService { get; set; }
-
         LocationChecker LocationChecker { get; set; }
 
         IntroductionViewModel Introduction { get; set; }

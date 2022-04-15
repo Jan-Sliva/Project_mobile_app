@@ -31,7 +31,7 @@ namespace Frontend.ViewModels
             Hide();
         }
 
-        public void Ask()
+        public override void Ask()
         {
             Answer = "";
             ShowAtPos(2);

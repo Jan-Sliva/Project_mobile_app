@@ -14,7 +14,8 @@ namespace Frontend.ViewModels
     {
         public SmartCollection<DisplayObjectViewModel> DisplayObjects { get; set; }
 
-        public InfoScreenViewModel(AppShellViewModel appShell) : base(appShell)
+        public InfoScreenViewModel(AppShellViewModel appShell,  string title, string iconFileName)
+            : base(appShell, title, iconFileName)
         {
             DisplayObjects = new SmartCollection<DisplayObjectViewModel>();
         }
