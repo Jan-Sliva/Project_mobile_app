@@ -14,5 +14,7 @@ namespace Frontend.Models
 
         public short? Value { get; set; }
 
+        public Stop Opens { get; set; }
+
     }
 }

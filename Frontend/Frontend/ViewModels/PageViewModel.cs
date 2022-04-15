@@ -23,9 +23,11 @@ namespace Frontend.ViewModels
 
         private bool _isVisible = false;
 
-        public PageViewModel(AppShellViewModel appShell)
+        public PageViewModel(AppShellViewModel appShell, string title, string iconFileName)
         {
             this.AppShell = appShell;
+            this.Title = title;
+            this.IconFileName = iconFileName;
 
             this.Page = (T)Activator.CreateInstance(typeof(T), new object[] { this });
 

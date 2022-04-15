@@ -8,7 +8,5 @@ namespace Frontend.Models
     {
         public Choice ChoiceOpensThis { get; set; }
 
-        public Stop Opens { get; set; }
-
     }
 }

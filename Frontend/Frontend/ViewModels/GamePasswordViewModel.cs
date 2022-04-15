@@ -17,17 +17,18 @@ namespace Frontend.ViewModels
 
         public Command ConfirmPassword { get; }
 
-        public GamePasswordViewModel(PasswordGameRequirement password, int position = 0)
+        public GamePasswordViewModel(PasswordGameRequirement password, int position = 0) : base(position)
         {
             this.Title = password.Question;
-            this.Position = position;
             this.IsDone = false;
             this.EnteredPassword = "";
             this.ConfirmPassword = new Command(OnPasswordConfirm);
         }
 
-        protected void OnPropertyChange(string propertyName)
+        protected new void OnPropertyChanged(string propertyName)
         {
+            base.OnPropertyChanged(propertyName);
+
             if (propertyName == nameof(IsDone))
             {
                 if (!_isDone) EnteredPassword = "";

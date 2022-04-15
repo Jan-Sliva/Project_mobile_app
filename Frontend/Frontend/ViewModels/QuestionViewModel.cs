@@ -16,14 +16,16 @@ namespace Frontend.ViewModels
 
         private static int NumberOfQuestion = 1;
 
-        protected QuestionViewModel(AppShellViewModel appShell, Question question) : base(appShell)
+        protected QuestionViewModel(AppShellViewModel appShell, Question question)
+            : base(appShell, "Otázka " + NumberOfQuestion, "icon_question.png")
         {
             this.Question = question.QuestionText;
-            this.Title = "Otázka " + NumberOfQuestion;
             NumberOfQuestion++;
             this.ConfirmQuestion = new Command(OnAnswerConfirmed);
         }
 
         public abstract void OnAnswerConfirmed();
+
+        public abstract void Ask();
     }
 }

@@ -9,17 +9,15 @@ namespace Frontend.Services
 {
     public class TextQuestionService : QuestionService
     {
-        public TextQuestion Model { get; }
+        public TextQuestionViewModel ViewModel;
 
-        public TextQuestionViewModel ViewModel { get; }
+        private TextQuestion Model;
+        private List<TextChoiceService> Choices;
+        private DefaultChoiceService DefaultChoice;
 
-        public TextQuestionService(AppShell appShell, TextQuestion textQuestion, MapService mapService)
+        public TextQuestionService(AppShellViewModel appShell, TextQuestion textQuestion)
         {
             Model = textQuestion;
-
-            Model.Service = this;
-
-            MapService = mapService;
 
             ViewModel = new TextQuestionViewModel(appShell, textQuestion);
 
@@ -28,25 +26,33 @@ namespace Frontend.Services
 
         public void OnConfirm(object sender, ConfirmedTextEventArgs e)
         {
-            if (Model.Choices != null)
+            foreach (TextChoiceService choice in Choices)
             {
-                foreach (ChoiceForTextQuestion choice in Model.Choices)
+                if (Correspond(choice.Model, e.Text))
                 {
-                    if (Correspond(choice, e.Text))
-                    {
-                        ProcessChoice(choice);
-                        return;
-                    }
+                    choice.Process();
+                    Hide();
+                    return;
                 }
             }
 
-            if (Model.DefaultChoice != null) ProcessChoice(Model.DefaultChoice);
+            if (DefaultChoice != null)
+            {
+                DefaultChoice.Process();
+                Hide();
+            }
+            
         }
 
 
         public override void Ask()
         {
             ViewModel.Ask();
+        }
+
+        public override void Hide()
+        {
+            ViewModel.Hide();
         }
 
 

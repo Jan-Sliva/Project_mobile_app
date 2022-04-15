@@ -9,24 +9,19 @@ namespace Frontend.Services
 {
     public class PasswordService
     {
-        PasswordGameRequirement Model { get; set; }
+        PasswordGameRequirement Model;
 
-        StopService StopService { get; set; }
-
-        GamePasswordViewModel PasswordViewModel { get; set; }
-
-        private bool isVisible = false;
+        public GamePasswordViewModel ViewModel;
 
         public event EventHandler PasswordCompleted;
 
-        public PasswordService(StopService stopService, PasswordGameRequirement model)
+        public PasswordService(PasswordGameRequirement model)
         {
-            StopService = stopService;
             Model = model;
 
-            PasswordViewModel = new GamePasswordViewModel(StopService.ViewModel, model);
+            ViewModel = new GamePasswordViewModel(model, 0);
 
-            PasswordViewModel.ConfirmedPasswordEvent += OnPasswordRecieved;
+            ViewModel.ConfirmedPasswordEvent += OnPasswordRecieved;
         }
 
         public void OnPasswordRecieved(object sender, ConfirmedTextEventArgs e)
@@ -37,8 +32,8 @@ namespace Frontend.Services
                 {
                     if (Correspond(password, e.Text))
                     {
+                        ViewModel.IsDone = true;
                         PasswordCompleted?.Invoke(this, EventArgs.Empty);
-                        PasswordViewModel.IsDone = true;
                         return;
                     }
                 }
@@ -68,26 +63,12 @@ namespace Frontend.Services
 
         public void AskForPassword()
         {
-            PasswordViewModel.IsDone = false;
-            Show();
-        }
-
-        public void Show()
-        {
-            if (!isVisible)
-            {
-                StopService.ViewModel.AddPasswordViewModel(PasswordViewModel);
-                isVisible = true;
-            }
+            ViewModel.IsDone = false;
         }
 
         public void Unshow()
         {
-            if (isVisible)
-            {
-                StopService.ViewModel.RemovePasswordViewModel(PasswordViewModel);
-                isVisible = false;
-            }
+            ViewModel.IsDone = true;
         }
     }
 }

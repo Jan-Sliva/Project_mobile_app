@@ -36,5 +36,10 @@ namespace Frontend.ViewModels
         {
             FlyoutItems.Remove(viewModel.FlyoutItem);
         }
+
+        public void HideAll()
+        {
+            FlyoutItems.Clear();
+        }
     }
 }

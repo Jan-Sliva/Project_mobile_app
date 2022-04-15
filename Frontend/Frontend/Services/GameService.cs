@@ -1,71 +1,58 @@
-﻿using Frontend.RestClient.Mapping;
+﻿using Frontend.Models;
+using Frontend.RestClient.Mapping;
+using Frontend.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Frontend.Models;
-using Frontend.ViewModels;
 
 namespace Frontend.Services
 {
     public class GameService
     {
-        
         Game Model { get; set; }
-
-        AppShell AppShell { get; set; }
-
-        MapService MapService { get; set; }
-
+        AppShellViewModel AppShell { get; set; }
         LocationChecker LocationChecker { get; set; }
-
         IntroductionViewModel Introduction { get; set; }
-
         DateTime StartingTime { get; set; }
-
         TimeSpan LengthOfThisGame { get; set; }
+        MapViewModel MapViewModel { get; set; }
+        Dictionary<Stop, StopService> buildingStops;
+        Dictionary<ChoiceQuestion, ChoiceQuestionService> buildingChoiceQuestions;
+        Dictionary<TextQuestion, TextQuestionService> buildingTextQuestions;
+        Dictionary<StopOpening, UnlockStopService> buildingUnlockStops;
 
-        public async void LoadAndPlayGame(int id, AppShell appShell)
+        public async void LoadAndPlayGame(int id, AppShellViewModel appShell)
         {
             var restClient = new RestClient.RestClient();
-
             var gameResource = await restClient.GetFullGameByIdAsync(id);
-
             var converter = new FullGameConverter();
-
             var game = converter.Convert(gameResource);
-
             LocationChecker = new LocationChecker();
-
             AppShell = appShell;
-
             Model = game;
+            MapViewModel = new MapViewModel(appShell);
 
-            MapService = new MapService(AppShell);
-
-            Introduction = new IntroductionViewModel(AppShell, Model.Introduction.Title);
-
-            if (Model.Introduction.DisplayObjects != null)
-            {
-                foreach (DisplayObject obj in Model.Introduction.DisplayObjects)
-                {
-                    Introduction.AddDisplayObject(obj);
-                }
-            }
+            Introduction = new IntroductionViewModel(AppShell, Model.Introduction);
 
             Text InfoAboutGame = new Text()
             {
                 Title = "Hráči, kteří se podíleli na této hře",
-                PositionInIntroduction = 0,
-                OwnText = ""
+                OwnText = "",
+                PositionInIntroduction = 0
             };
             foreach(User user in Model.Owners)
             {
                 InfoAboutGame.OwnText = InfoAboutGame.OwnText + user.UserName + " ";
             }
 
-            Introduction.AddText(InfoAboutGame);
+            Introduction.CreateAndAdd(InfoAboutGame, (int)InfoAboutGame.PositionInIntroduction);
 
-            if (Model.Introduction.MapPositions != null) MapService.AddNotStops(Model.Introduction.MapPositions as List<MapPosition>);
+            if (Model.Introduction.MapPositions != null)
+            {
+                foreach (MapPosition pos in Model.Introduction.MapPositions)
+                {
+                    new PinViewModel(MapViewModel, pos, PinDisplayType.NOT_STOP);
+                }
+            }
 
             StartingTime = DateTime.UtcNow;
 
@@ -78,11 +65,11 @@ namespace Frontend.Services
 
         public void End()
         {
-            AppShell.RemoveAllFlyoutItems();
+            AppShell.HideAll();
 
             LengthOfThisGame = StartingTime - DateTime.UtcNow;
 
-            var EndInfo = new IntroductionViewModel(AppShell, "Konec");
+            var EndInfo = new IntroductionViewModel(AppShell, new Introduction() { Title = "Konec"});
 
             if (LengthOfThisGame.Minutes <= Model.Limit.Minutes)
             {
@@ -90,7 +77,7 @@ namespace Frontend.Services
                 var EndText = new Text() { Title = "Úspěšně jsi dokončil hru", OwnText = "Hra ti trvala " + LengthOfThisGame.Minutes + " minut. "
                                            + "Limit byl " + Model.Limit.Minutes + " minut.", PositionInIntroduction = 0 };
 
-                EndInfo.AddText(EndText);
+                EndInfo.CreateAndAdd(EndText, (int)EndText.PositionInIntroduction);
             }
             else
             {
@@ -102,27 +89,79 @@ namespace Frontend.Services
                     PositionInIntroduction = 0
                 };
 
-                EndInfo.AddText(EndText);
+                EndInfo.CreateAndAdd(EndText, (int)EndText.PositionInIntroduction);
             }
 
         }
 
-        private void SetUpStopModel(Stop stopModel)
+        private StopService SetUpStopModel(Stop stopModel)
         {
-            if(stopModel.Service == null)
+            if (buildingStops.TryGetValue(stopModel, out StopService stopService))
             {
-                stopModel.Service = new StopService(stopModel, AppShell, MapService, LocationChecker, this);
-                if (stopModel.Questions != null)
+                return stopService;
+            }
+            else
+            {
+                List<PasswordService> passwordServices = new List<PasswordService>();
+                foreach(PasswordGameRequirement password in stopModel.Passwords)
                 {
-                    foreach (Question questionModel in stopModel.Questions)
+                    passwordServices.Add(new PasswordService(password));
+                }
+
+                var ret = new StopService(stopModel, AppShell, MapViewModel, LocationChecker, this, passwordServices);
+                buildingStops[stopModel] = ret;
+                foreach (Question question in stopModel.Questions)
+                {
+                    if (question is ChoiceQuestion choiceQuestion)
                     {
-                        SetUpQuestionModel(questionModel);
+                        var questionService = SetUpChoiceQuestion(choiceQuestion);
+                        ret.OpenQuestions.Add(questionService);
+                    }
+                    else if (question is TextQuestion textQuestion)
+                    {
+                        var questionService = SetUpTextQuestion(textQuestion);
+                        ret.OpenQuestions.Add(questionService);
                     }
                 }
+
+                foreach (StopStop stopStop in stopModel.Opens)
+                {
+                    var unlockStop = SetUpUnlockStopService(stopStop);
+                    ret.OpenStops.Add(unlockStop);
+                }
+
+                return ret;
             }
         }
 
-        private void SetUpQuestionModel(Question questionModel)
+        private UnlockStopService SetUpUnlockStopService(StopOpening unlockStopModel)
+        {
+            if (buildingUnlockStops.TryGetValue(unlockStopModel, out UnlockStopService unlockService))
+            {
+                return unlockService;
+            }
+            else
+            {
+                var stopService = SetUpStopModel(unlockStopModel.Opens);
+                var ret = new UnlockStopService(unlockStopModel, stopService);
+                buildingUnlockStops[unlockStopModel] = ret;
+                return ret;
+            }
+        }
+
+        private ChoiceQuestionService SetUpChoiceQuestion(ChoiceQuestion questionModel)
+        {
+            if (buildingChoiceQuestions.TryGetValue(questionModel, out ChoiceQuestionService questionService))
+            {
+                return questionService;
+            }
+            else
+            {
+
+            }
+        }
+
+        private TextQuestionService SetUpTextQuestion(TextQuestion questionModel)
         {
             if(questionModel.Service == null)
             {

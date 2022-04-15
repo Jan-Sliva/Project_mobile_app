@@ -26,7 +26,7 @@ namespace Frontend.ViewModels
             //}
         }
 
-        public void Ask()
+        public override void Ask()
         {
             SetAllToFalse();
             Show();
@@ -34,7 +34,7 @@ namespace Frontend.ViewModels
 
         public override void OnAnswerConfirmed()
         {
-            var chosenAnswer = Choices.Where(cha => cha.IsChosen).FirstOrDefault();
+            var chosenAnswer = Choices.Where(cha => cha.IsChosen).FirstOrDefault(null);
             if (chosenAnswer != null)
             {
                 chosenAnswer.RaiseChoiceSubmitted();

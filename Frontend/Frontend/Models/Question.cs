@@ -13,7 +13,5 @@ namespace Frontend.Models
 
         public ICollection<Choice> ChoicesThatOpensThis { get; set; }
 
-        public QuestionService Service { get; set; }
-
     }
 }

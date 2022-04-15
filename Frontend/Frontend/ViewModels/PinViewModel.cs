@@ -52,7 +52,7 @@ namespace Frontend.ViewModels
         private const float _notStopPinColour = PinColours.Violet;
 
 
-        public PinViewModel(MapViewModel mapView, MapPosition position, PinDisplayType state)
+        public PinViewModel(MapViewModel mapView, MapPosition position, PinDisplayType state = PinDisplayType.NOT_VISIBLE)
         {
             Position = new Position(position.X, position.Y);
             Radius = position.Radius;
