@@ -139,6 +139,8 @@ namespace Frontend.Services
         private Stop Model;
         private StopViewModel ViewModel;
         private LocationToCheck LocationToCheck;
+        private List<UnlockStopService> OpenStops = new List<UnlockStopService>();
+        private List<QuestionService> OpenQuestions = new List<QuestionService>();
 
         public List<UnlockStopService> OpenStops = new List<UnlockStopService>();
         public List<QuestionService> OpenQuestions = new List<QuestionService>();

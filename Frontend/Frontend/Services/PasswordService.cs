@@ -13,6 +13,8 @@ namespace Frontend.Services
 
         public GamePasswordViewModel ViewModel;
 
+        private bool isVisible = false;
+
         public event EventHandler PasswordCompleted;
 
         public PasswordService(PasswordGameRequirement model)
