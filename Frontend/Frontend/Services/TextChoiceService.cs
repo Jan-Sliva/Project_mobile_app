@@ -14,10 +14,5 @@ namespace Frontend.Services
         {
             Model = model;
         }
-
-        public void AddChoices(IEnumerable<TextChoiceService> choices)
-        {
-            
-        }
     }
 }

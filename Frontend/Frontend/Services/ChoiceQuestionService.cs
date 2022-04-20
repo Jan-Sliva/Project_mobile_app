@@ -11,10 +11,10 @@ namespace Frontend.Services
         private ChoiceQuestion Model;
         public ChoiceQuestionViewModel ViewModel;
 
-        public ChoiceQuestionService(AppShellViewModel appShell, ChoiceQuestion textQuestion)
+        public ChoiceQuestionService(AppShellViewModel appShell, ChoiceQuestion choiceQuestion)
         {
-            Model = textQuestion;
-            ViewModel = new ChoiceQuestionViewModel(appShell, textQuestion);
+            Model = choiceQuestion;
+            ViewModel = new ChoiceQuestionViewModel(appShell, choiceQuestion);
         }
 
         public override void Ask()

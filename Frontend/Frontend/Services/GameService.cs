@@ -157,50 +157,39 @@ namespace Frontend.Services
             }
             else
             {
+                var ret = new ChoiceQuestionService(AppShell, questionModel);
+                buildingChoiceQuestions[questionModel] = ret;
 
+                foreach(ChoiceForChoiceQuestion choice in questionModel.Choices)
+                {
+                    new ChoiceChoiceService(ret, choice, MapViewModel);
+                }
+
+                return ret;
             }
         }
 
         private TextQuestionService SetUpTextQuestion(TextQuestion questionModel)
         {
-            if(questionModel.Service == null)
+            if (buildingTextQuestions.TryGetValue(questionModel, out TextQuestionService textQuestionService))
             {
-                if (questionModel is ChoiceQuestion)
-                {
-                    questionModel.Service = new ChoiceQuestionService(AppShell, questionModel as ChoiceQuestion, MapService);
-                    foreach (ChoiceForChoiceQuestion choiceModel in (questionModel as ChoiceQuestion).Choices)
-                    {
-                        if (choiceModel.OpensQuestions != null)
-                        {
-                            foreach (Question choiceQuestionModel in choiceModel.OpensQuestions)
-                            {
-                                SetUpQuestionModel(choiceQuestionModel);
-                            }
-                        }
-                    }
-                }
-                else if (questionModel is TextQuestion)
-                {
-                    questionModel.Service = new TextQuestionService(AppShell, questionModel as TextQuestion, MapService);
-                    foreach (ChoiceForTextQuestion choiceModel in (questionModel as TextQuestion).Choices)
-                    {
-                        if (choiceModel.OpensQuestions != null)
-                        {
-                            foreach (Question choiceQuestionModel in choiceModel.OpensQuestions)
-                            {
-                                SetUpQuestionModel(choiceQuestionModel);
-                            }
-                        }
-                    }
+                return textQuestionService;
+            }
+            else
+            {
+                var ret = new TextQuestionService(AppShell, questionModel);
+                buildingTextQuestions[questionModel] = ret;
 
-                    if ((questionModel as TextQuestion).DefaultChoice.OpensQuestions != null)
-                    {
-                        foreach (Question choiceModel in (questionModel as TextQuestion).DefaultChoice.OpensQuestions)
-                        {
-                            SetUpQuestionModel(choiceModel);
-                        }
-                    }
+                foreach(ChoiceForTextQuestion choice in questionModel.Choices)
+                {
+                    var choiceService = new TextChoiceService(choice, MapViewModel);
+                    ret.Choices.Add(choiceService);
                 }
+
+                var defaultChoiceService = new DefaultChoiceService(questionModel.DefaultChoice);
+                ret.DefaultChoice = defaultChoiceService;
+
+                return ret;
             }
         }
     }

@@ -12,7 +12,8 @@ namespace Frontend.Services
         private ChoiceQuestionService ChoiceQuestion;
         public ChoiceForChoiceQuestion Model;
 
-        public ChoiceChoiceService(ChoiceQuestionService choiceQuestion, ChoiceForChoiceQuestion choiceForChoiceQuestion)
+        public ChoiceChoiceService(ChoiceQuestionService choiceQuestion, ChoiceForChoiceQuestion choiceForChoiceQuestion, MapViewModel map) 
+            : base(choiceForChoiceQuestion, map)
         {
             ViewModel = new ChoiceForChoiceQuestionViewModel(choiceQuestion.ViewModel, choiceForChoiceQuestion);
             ViewModel.ChoiceSubmitted += OnSubmitted;

@@ -10,10 +10,10 @@ namespace Frontend.Services
     public class TextQuestionService : QuestionService
     {
         public TextQuestionViewModel ViewModel;
+        public List<TextChoiceService> Choices;
+        public DefaultChoiceService DefaultChoice;
 
         private TextQuestion Model;
-        private List<TextChoiceService> Choices;
-        private DefaultChoiceService DefaultChoice;
 
         public TextQuestionService(AppShellViewModel appShell, TextQuestion textQuestion)
         {

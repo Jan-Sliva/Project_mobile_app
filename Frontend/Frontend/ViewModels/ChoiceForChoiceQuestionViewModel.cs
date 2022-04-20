@@ -29,6 +29,7 @@ namespace Frontend.ViewModels
         {
             ChoiceQuestion = choiceQuestion;
             ChoiceText = choiceForChoiceQuestion.Text;
+            ChoiceQuestion.Choices.Add(this);
             _isChosen = false;
         }
 
