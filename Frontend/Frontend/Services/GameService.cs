@@ -186,7 +186,7 @@ namespace Frontend.Services
                     ret.Choices.Add(choiceService);
                 }
 
-                var defaultChoiceService = new DefaultChoiceService(questionModel.DefaultChoice);
+                var defaultChoiceService = new DefaultChoiceService(questionModel.DefaultChoice, MapViewModel);
                 ret.DefaultChoice = defaultChoiceService;
 
                 return ret;

@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Android.Content;
-using Android.Gms.Maps;
-using Android.Gms.Maps.Model;
-using Android.Widget;
-using CustomRenderer;
-using CustomRenderer.Droid;
-using Xamarin.Forms;
-using Xamarin.Forms.Maps;
-using Xamarin.Forms.Maps.Android;
+﻿using CustomRenderer.Droid;
 using NativeCircle = Android.Gms.Maps.Model.Circle;
-using Frontend.ViewModels;
-using Frontend.Smart;
 
 [assembly: ExportRenderer(typeof(SmartMap), typeof(SmartMapRenderer))]
 namespace CustomRenderer.Droid
@@ -39,7 +27,7 @@ namespace CustomRenderer.Droid
                 }
                 if (nativeCircles != null)
                 {
-                    if(nativeCircles.Count > 0)
+                    if (nativeCircles.Count > 0)
                         nativeCircles.ForEach(x => x.Remove());
                 }
                 SetColouredPins();
