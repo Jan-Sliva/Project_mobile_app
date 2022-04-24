@@ -18,14 +18,14 @@ namespace Frontend.ViewModels
 
             backingStore = value;
 
-            OnPropertyChanged(propertyName);
+            this.OnPropertyChanged(propertyName);
 
             return true;
         }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

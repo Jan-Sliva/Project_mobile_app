@@ -9,37 +9,34 @@ using Xamarin.Forms;
 namespace Frontend.ViewModels
 {
     // controls flyout items
-    public class AppShellViewModel
+    public class AppShellViewModel : BaseViewModel
     {
-        public SmartCollection<FlyoutItem> FlyoutItems { get; set; }
 
-        private AppShell AppShell { get; set; }
+        public AppShell AppShell { get; set; }
 
-        AppShellViewModel()
+        public AppShellViewModel()
         {
             AppShell = new AppShell(this);
-
-            FlyoutItems = new SmartCollection<FlyoutItem>();
         }
 
         public void ShowViewModel<T>(PageViewModel<T> viewModel) where T : BasePage
         {
-            FlyoutItems.Add(viewModel.FlyoutItem);
+            AppShell.Items.Add(viewModel.FlyoutItem);
         }
 
         public void ShowAtPosition<T>(PageViewModel<T> viewModel, int pos) where T : BasePage
         {
-            FlyoutItems.Insert(pos, viewModel.FlyoutItem);
+            AppShell.Items.Insert(pos, viewModel.FlyoutItem);
         }
 
         public void HideViewModel<T>(PageViewModel<T> viewModel) where T : BasePage
         {
-            FlyoutItems.Remove(viewModel.FlyoutItem);
+            AppShell.Items.Remove(viewModel.FlyoutItem);
         }
 
         public void HideAll()
         {
-            FlyoutItems.Clear();
+            AppShell.Items.Clear();
         }
     }
 }

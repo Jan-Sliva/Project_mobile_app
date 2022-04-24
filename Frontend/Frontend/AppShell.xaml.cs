@@ -10,9 +10,9 @@ namespace Frontend
     {
         public AppShell(AppShellViewModel viewModel)
         {
-            InitializeComponent();
             BindingContext = viewModel;
-            this.SetBinding(ItemsProperty, "FlyOutItems");
+
+            InitializeComponent();
         }
     }
 }

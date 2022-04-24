@@ -12,7 +12,9 @@ namespace Project_mobile_app.Data.Repositories
     {
         public GameRepository(Project_mobile_appContext context)
             : base(context)
-        { }
+        {
+            this.Context.Database.SetCommandTimeout(600);
+        }
 
         private Project_mobile_appContext AppContext
         {

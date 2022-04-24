@@ -62,7 +62,7 @@ namespace Frontend.ViewModels
             State = state;
         }
 
-        protected new void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
 

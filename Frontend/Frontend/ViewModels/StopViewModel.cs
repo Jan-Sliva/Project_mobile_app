@@ -23,22 +23,22 @@ namespace Frontend.ViewModels
         // display after display, hide after unlock
         private List<DisplayObjectViewModel> _hideAfterUnlock = new List<DisplayObjectViewModel>();
 
-        public StopViewModel(AppShellViewModel appShellViewModel, Stop stop, List<GamePasswordViewModel>passwords)
+        public StopViewModel(AppShellViewModel appShellViewModel, Stop stop, IEnumerable<GamePasswordViewModel> passwords)
             : base(appShellViewModel, stop.Name, "icon_stop.png")
         {
-            _state = StopDisplayState.NOT_VISIBLE;
+            this._state = StopDisplayState.NOT_VISIBLE;
             _lastState = _state;
 
-            CreateAndAddDisplayObjects((ICollection<DisplayObject>)stop.DisplayObjectsHints.Select(x => x.DisplayObject),
-                _dispayAfterDisplay, (ICollection<int>)stop.DisplayObjectsHints.Select(x => x.Position));
+            CreateAndAddDisplayObjects(stop.DisplayObjectsHints.Select(x => x.DisplayObject),
+                _dispayAfterDisplay, stop.DisplayObjectsHints.Select(x => (int)x.Position));
 
-            CreateAndAddDisplayObjects((ICollection<DisplayObject>)stop.DisplayObjectsRewards.Select(x => x.DisplayObject),
-                _dispayAfterUnlock, (ICollection<int>)stop.DisplayObjectsHints.Select(x => x.Position));
+            CreateAndAddDisplayObjects(stop.DisplayObjectsRewards.Select(x => x.DisplayObject),
+                _dispayAfterUnlock, stop.DisplayObjectsHints.Select(x => (int)x.Position));
             
             _hideAfterUnlock.AddRange(passwords);
         }
 
-        protected new void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
 

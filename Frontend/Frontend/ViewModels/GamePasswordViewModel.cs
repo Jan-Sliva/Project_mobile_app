@@ -25,7 +25,7 @@ namespace Frontend.ViewModels
             this.ConfirmPassword = new Command(OnPasswordConfirm);
         }
 
-        protected new void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
 

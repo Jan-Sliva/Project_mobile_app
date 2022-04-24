@@ -13,6 +13,7 @@ namespace Frontend.Services
                 var request = new GeolocationRequest(GeolocationAccuracy.Best);
                 var location = await Geolocation.GetLocationAsync(request);
 
+
                 return location;
             }
             catch (Exception e)

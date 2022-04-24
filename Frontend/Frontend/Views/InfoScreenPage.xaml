@@ -2,8 +2,8 @@
 <local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Frontend.Views"
-             xmlns:model="clr-namespace:Frontend.ViewModels"
-             x:Class="Frontend.Views.InfoScreenPage"
+             xmlns:model="clr-namespace:Frontend.ViewModels" x:DataType="model:IntroductionViewModel"
+                x:Class="Frontend.Views.InfoScreenPage"
              Title="{Binding Title}">
 
     <ContentPage.Content>
@@ -66,7 +66,7 @@
                             FontSize="10" />
                 </StackLayout>
             </DataTemplate>
-            <local:StopDataTemplateSelector x:Key="stopDataTemplateSelector"
+            <local:InfoScreenDataTemplateSelector x:Key="InfoScreenDataTemplateSelector"
                 TextTemplate="{StaticResource textTemplate}"
                 DonePasswordTemplate="{StaticResource donePasswordTemplate}" 
                 NotDonePasswordTemplate ="{StaticResource notDonePasswordTemplate}"/>

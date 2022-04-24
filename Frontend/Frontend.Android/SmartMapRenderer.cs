@@ -1,5 +1,18 @@
-﻿using CustomRenderer.Droid;
+﻿using System;
+using System.Collections.Generic;
+using Android.Content;
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
+using Android.Widget;
+using CustomRenderer;
+using CustomRenderer.Droid;
+using Xamarin.Forms;
+using Xamarin.Forms.Maps;
+using Xamarin.Forms.Maps.Android;
 using NativeCircle = Android.Gms.Maps.Model.Circle;
+using Frontend.ViewModels;
+using Frontend.Smart;
+using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(SmartMap), typeof(SmartMapRenderer))]
 namespace CustomRenderer.Droid
@@ -18,7 +31,7 @@ namespace CustomRenderer.Droid
             base.OnElementPropertyChanged(sender, e);
             if (this.Element == null)
                 return;
-            if (e.PropertyName == ((SmartMap)this.Element).SmartPinsProperty.PropertyName)
+            if (e.PropertyName == SmartMap.SmartPinsProperty.PropertyName)
             {
                 if (markers != null)
                 {
@@ -46,7 +59,6 @@ namespace CustomRenderer.Droid
                 var marker = new MarkerOptions();
                 marker.SetPosition(new LatLng(smartPin.Position.Latitude, smartPin.Position.Longitude));
                 marker.SetTitle(smartPin.Label);
-                marker.SetSnippet(smartPin.Address);
                 marker.SetIcon(BitmapDescriptorFactory.DefaultMarker(smartPin.Colour));
 
                 Marker m = NativeMap.AddMarker(marker);
@@ -56,10 +68,10 @@ namespace CustomRenderer.Droid
                 {
                     var nativeCircle = new CircleOptions();
                     nativeCircle.InvokeCenter(new LatLng(smartPin.Position.Latitude, smartPin.Position.Longitude));
-                    nativeCircle.InvokeRadius(float.Parse(smartPin.Radius));
-                    nativeCircle.InvokeStrokeColor(smartPin.StrokeColor.ToAndroid());
-                    nativeCircle.InvokeFillColor(smartPin.FillColor.ToAndroid());
-                    nativeCircle.InvokeStrokeWidth(smartPin.StrokeWidth * this.ScaledDensity);
+                    nativeCircle.InvokeRadius((double)smartPin.Radius);
+                    nativeCircle.InvokeStrokeColor(smartPin.StrokeColour.ToAndroid());
+                    nativeCircle.InvokeFillColor(smartPin.FillColour.ToAndroid());
+                    nativeCircle.InvokeStrokeWidth(smartPin.StrokeWidth);
 
                     NativeCircle nc = NativeMap.AddCircle(nativeCircle);
                     nativeCircles.Add(nc);

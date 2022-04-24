@@ -11,7 +11,7 @@ using Xamarin.Forms;
 {
     public class LocationChecker
     {
-        private List<LocationToCheck> Locations { get; }
+        private List<LocationToCheck> Locations { get; set; }
         public LocationChecker()
         {
             Locations = new List<LocationToCheck>();
@@ -61,7 +61,7 @@ using Xamarin.Forms;
         }
         private async Task CheckLocation()
         {
-            var currentLocation = await LocationService.GetLastKnownLocation();
+            var currentLocation = await LocationService.GetCurrentLocation();
             
             foreach (LocationToCheck location in Locations.ToArray())
             {

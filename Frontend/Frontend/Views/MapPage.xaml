@@ -7,7 +7,7 @@
              x:Class="Frontend.Views.MapPage"
              Title="{Binding Title}">
 
-    <custom:SmartMap x:Name="map" MapType="Hybrid" ItemsSource="{Binding Pins}">
+    <custom:SmartMap x:Name="map" MapType="Hybrid" ItemsSource="{Binding PinViewModels}">
         <custom:SmartMap.ItemTemplate>
             <DataTemplate>
                 <custom:SmartPin Position="{Binding Position}"

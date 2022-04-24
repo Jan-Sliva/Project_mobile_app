@@ -10,9 +10,16 @@ namespace Frontend.Smart
     {
         public SmartMap() : base() { }
 
-        public List<SmartPin> SmartPins { get; set; }
+        public List<SmartPin> SmartPins
+        {
+            get { return (List<SmartPin>)GetValue(SmartPinsProperty); }
+            set
+            {
+                SetValue(SmartPinsProperty, value);
+            }
+        }
 
         public static readonly BindableProperty SmartPinsProperty =
-        BindableProperty.Create("ColouredPins", typeof(List<SmartPin>), typeof(SmartMap), null, BindingMode.TwoWay);
+        BindableProperty.Create("SmartPins", typeof(List<SmartPin>), typeof(SmartMap), null, BindingMode.TwoWay);
     }
 }

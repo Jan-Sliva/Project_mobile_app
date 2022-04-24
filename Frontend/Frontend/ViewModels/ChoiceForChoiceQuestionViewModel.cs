@@ -33,7 +33,7 @@ namespace Frontend.ViewModels
             _isChosen = false;
         }
 
-        protected new void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
 

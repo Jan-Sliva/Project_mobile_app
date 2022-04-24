@@ -8,13 +8,11 @@ namespace Frontend.ViewModels
 {
     public abstract class InfoScreenViewModel : PageViewModel<InfoScreenPage>
     {
-        public SmartCollection<DisplayObjectViewModel> DisplayObjects { get; set; }
+        public SmartCollection<DisplayObjectViewModel> DisplayObjects { get; set; } = new SmartCollection<DisplayObjectViewModel>();
 
         public InfoScreenViewModel(AppShellViewModel appShell,  string title, string iconFileName)
             : base(appShell, title, iconFileName)
-        {
-            DisplayObjects = new SmartCollection<DisplayObjectViewModel>();
-        }
+        { }
 
         public void AddDisplayObject(DisplayObjectViewModel displayObject)
         {

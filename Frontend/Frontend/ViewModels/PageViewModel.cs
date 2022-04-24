@@ -26,36 +26,41 @@ namespace Frontend.ViewModels
         public PageViewModel(AppShellViewModel appShell, string title, string iconFileName)
         {
             this.AppShell = appShell;
-            this.Title = title;
-            this.IconFileName = iconFileName;
+
+            FlyoutItem = new FlyoutItem();
+
+            Title = title;
+            IconFileName = iconFileName;
 
             this.Page = (T)Activator.CreateInstance(typeof(T), new object[] { this });
-
-            FlyoutItem = new FlyoutItem()
-            {
-                Title = this.Title,
-                Icon = this.IconFileName,
-            };
 
             ShellContent = new ShellContent { Content = this.Page };
 
             FlyoutItem.Items.Add(ShellContent);
         }
 
-        protected new void OnPropertyChanged(string propertyName)
+        protected override void OnPropertyChanged(string propertyName)
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName == nameof(Title) || propertyName == nameof(IconFileName))
+            if (propertyName == nameof(Title))
             {
-                UpdateFlyoutItem();
+                UpdateTitle();
+            }
+            else if(propertyName == nameof(IconFileName))
+            {
+                UpdateIcon();
             }
         }
 
-        public void UpdateFlyoutItem()
+        public void UpdateTitle()
         {
-            FlyoutItem.Title = Title;
-            FlyoutItem.Icon = IconFileName;
+            if (Title != null) FlyoutItem.Title = Title;
+        }
+
+        public void UpdateIcon()
+        {
+            if (IconFileName != null) FlyoutItem.Icon = IconFileName;
         }
 
         public void Show()

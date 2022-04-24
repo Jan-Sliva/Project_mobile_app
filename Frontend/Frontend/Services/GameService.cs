@@ -15,10 +15,10 @@ namespace Frontend.Services
         DateTime StartingTime { get; set; }
         TimeSpan LengthOfThisGame { get; set; }
         MapViewModel MapViewModel { get; set; }
-        Dictionary<Stop, StopService> buildingStops;
-        Dictionary<ChoiceQuestion, ChoiceQuestionService> buildingChoiceQuestions;
-        Dictionary<TextQuestion, TextQuestionService> buildingTextQuestions;
-        Dictionary<StopOpening, UnlockStopService> buildingUnlockStops;
+        Dictionary<Stop, StopService> buildingStops = new Dictionary<Stop, StopService>();
+        Dictionary<ChoiceQuestion, ChoiceQuestionService> buildingChoiceQuestions = new Dictionary<ChoiceQuestion, ChoiceQuestionService>();
+        Dictionary<TextQuestion, TextQuestionService> buildingTextQuestions = new Dictionary<TextQuestion, TextQuestionService>();
+        Dictionary<StopOpening, UnlockStopService> buildingUnlockStops = new Dictionary<StopOpening, UnlockStopService>();
 
         public async void LoadAndPlayGame(int id, AppShellViewModel appShell)
         {
@@ -29,9 +29,9 @@ namespace Frontend.Services
             LocationChecker = new LocationChecker();
             AppShell = appShell;
             Model = game;
-            MapViewModel = new MapViewModel(appShell);
 
             Introduction = new IntroductionViewModel(AppShell, Model.Introduction);
+            MapViewModel = new MapViewModel(appShell);
 
             Text InfoAboutGame = new Text()
             {
@@ -39,7 +39,7 @@ namespace Frontend.Services
                 OwnText = "",
                 PositionInIntroduction = 0
             };
-            foreach(User user in Model.Owners)
+            foreach (User user in Model.Owners)
             {
                 InfoAboutGame.OwnText = InfoAboutGame.OwnText + user.UserName + " ";
             }

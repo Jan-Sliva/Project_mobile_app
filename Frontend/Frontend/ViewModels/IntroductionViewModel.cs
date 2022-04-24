@@ -16,7 +16,7 @@ namespace Frontend.ViewModels
             : base(appShell, model.Title, "icon_about.png")
         {
             CreateAndAddDisplayObjects(model.DisplayObjects, this.DisplayObjects,
-                (ICollection<int>) model.DisplayObjects.Select(x => (int)x.PositionInIntroduction));
+                model.DisplayObjects.Select(x => (int)x.PositionInIntroduction));
             ShowAtPos(0);
         }
     }

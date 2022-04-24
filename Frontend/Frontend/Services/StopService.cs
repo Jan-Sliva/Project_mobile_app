@@ -148,7 +148,7 @@ namespace Frontend.Services
             GameService gameService, List<PasswordService> passwordServices)
         {
             Model = stopModel;
-            ViewModel = new StopViewModel(appShell, Model, (List<GamePasswordViewModel>)passwordServices.Select(x => x.ViewModel));
+            ViewModel = new StopViewModel(appShell, Model, passwordServices.Select(x => x.ViewModel));
             MapViewModel = mapViewModel;
             LocationChecker = locationChecker;
             GameService = gameService;
