@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Frontend.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -10,9 +12,13 @@ namespace Frontend.Smart
     {
         public SmartMap() : base() { }
 
-        public List<SmartPin> SmartPins
+        public SmartMap(MapSpan span) : base(span) 
+        {       
+        }
+
+        public ObservableCollection<PinViewModel> SmartPins
         {
-            get { return (List<SmartPin>)GetValue(SmartPinsProperty); }
+            get { return (ObservableCollection<PinViewModel>)GetValue(SmartPinsProperty); }
             set
             {
                 SetValue(SmartPinsProperty, value);
@@ -20,6 +26,6 @@ namespace Frontend.Smart
         }
 
         public static readonly BindableProperty SmartPinsProperty =
-        BindableProperty.Create("SmartPins", typeof(List<SmartPin>), typeof(SmartMap), null, BindingMode.TwoWay);
+        BindableProperty.Create("SmartPins", typeof(ObservableCollection<PinViewModel>), typeof(SmartMap), null, BindingMode.TwoWay);
     }
 }

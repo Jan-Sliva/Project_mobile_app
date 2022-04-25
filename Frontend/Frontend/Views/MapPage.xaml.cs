@@ -21,11 +21,23 @@ namespace Frontend.Views
     {
         public MapPage(MapViewModel viewModel)
         {
+            InitializeComponent();
+
             Init(viewModel);
             this.SetBinding(TitleProperty, "Title");
-            new SmartMap() { MapType = MapResources.TypoOfMap, IsShowingUser = MapResources.IsShowingUser, 
-                             ItemsSource = viewModel.PinViewModels, ItemTemplate = PinTemplate };
-            InitializeComponent();
+
+            MapSpan mapSpan = new MapSpan(new Position(), MapResources.InitialFocusLatitude, MapResources.InitialFocusLongitude);
+
+            var map = new SmartMap(mapSpan)
+            {
+                MapType = MapResources.TypoOfMap,
+                IsShowingUser = MapResources.IsShowingUser
+            };
+
+            map.SetBinding(SmartMap.SmartPinsProperty, "PinViewModels");
+
+            Content = map;
+
         }
     }
 }

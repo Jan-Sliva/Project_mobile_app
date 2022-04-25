@@ -4,8 +4,7 @@
              xmlns:model="clr-namespace:Frontend.ViewModels"
              xmlns:custom="clr-namespace:Frontend.Smart"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.Views.MapPage"
-             Title="{Binding Title}">
+             x:Class="Frontend.Views.MapPage">
 
     <!--<custom:SmartMap x:Name="map" MapType="Hybrid" ItemsSource="{Binding PinViewModels}">
         <custom:SmartMap.ItemTemplate>
@@ -21,17 +20,12 @@
         </custom:SmartMap.ItemTemplate>
     </custom:SmartpinMap>-->
 
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="pinTemplate" x:Name="PinTemplate">
+            <DataTemplate x:Key="pinTemplate" x:DataType="model:PinViewModel">
                 <custom:SmartPin Position="{Binding Position}"
-                                    Label="{Binding Label}" 
-                                    Colour="{Binding Colour}"
-                                    FillColour="{Binding FillColour}"
-                                    StrokeColour="{Binding StrokeColour}"
-                                    ShowCircle="{Binding ShowCircle}"
-                                    StrokeWidth="{Binding StrokeWidth}"/>
+                                    Label="{Binding Label}" />
             </DataTemplate>
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
 </local:BasePage>

@@ -13,11 +13,10 @@ namespace Frontend.ViewModels
     public class ChoiceQuestionViewModel : QuestionViewModel<ChoiceQuestionPage>
     {
 
-        public SmartCollection<ChoiceForChoiceQuestionViewModel> Choices { get; set; }
+        public SmartCollection<ChoiceForChoiceQuestionViewModel> Choices { get; set; } = new SmartCollection<ChoiceForChoiceQuestionViewModel>();
 
         public ChoiceQuestionViewModel(AppShellViewModel appShell, ChoiceQuestion choiceQuestion) : base(appShell, choiceQuestion)
         {
-            Choices = new SmartCollection<ChoiceForChoiceQuestionViewModel>();
 
             //foreach(ChoiceForChoiceQuestion choice in choiceQuestion.Choices)
             //{

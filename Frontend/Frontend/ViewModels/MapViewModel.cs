@@ -12,12 +12,10 @@ namespace Frontend.ViewModels
 {
     public class MapViewModel : PageViewModel<MapPage>
     {
-        public SmartCollection<PinViewModel> PinViewModels { get; set; }
+        public SmartCollection<PinViewModel> PinViewModels { get; set; } = new SmartCollection<PinViewModel>();
 
         public MapViewModel(AppShellViewModel appShell) : base(appShell, "Mapa", "icon_map.png")
         {
-            this.PinViewModels = new SmartCollection<PinViewModel>();
-
             ShowAtPos(1);
         }
 

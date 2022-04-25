@@ -11,10 +11,9 @@ using Xamarin.Forms;
 {
     public class LocationChecker
     {
-        private List<LocationToCheck> Locations { get; set; }
+        private List<LocationToCheck> Locations { get; set; } = new List<LocationToCheck>();
         public LocationChecker()
         {
-            Locations = new List<LocationToCheck>();
             _ = CheckLocationPeriodically();
         }
         public void AddLocation(LocationToCheck newLocation)
