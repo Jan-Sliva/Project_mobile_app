@@ -7,7 +7,7 @@
              x:Class="Frontend.Views.MapPage"
              Title="{Binding Title}">
 
-    <custom:SmartMap x:Name="map" MapType="Hybrid" ItemsSource="{Binding PinViewModels}">
+    <!--<custom:SmartMap x:Name="map" MapType="Hybrid" ItemsSource="{Binding PinViewModels}">
         <custom:SmartMap.ItemTemplate>
             <DataTemplate>
                 <custom:SmartPin Position="{Binding Position}"
@@ -19,5 +19,19 @@
                                     StrokeWidth="{Binding StrokeWidth}"/>
             </DataTemplate>
         </custom:SmartMap.ItemTemplate>
-    </custom:SmartMap>
+    </custom:SmartpinMap>-->
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="pinTemplate" x:Name="PinTemplate">
+                <custom:SmartPin Position="{Binding Position}"
+                                    Label="{Binding Label}" 
+                                    Colour="{Binding Colour}"
+                                    FillColour="{Binding FillColour}"
+                                    StrokeColour="{Binding StrokeColour}"
+                                    ShowCircle="{Binding ShowCircle}"
+                                    StrokeWidth="{Binding StrokeWidth}"/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 </local:BasePage>

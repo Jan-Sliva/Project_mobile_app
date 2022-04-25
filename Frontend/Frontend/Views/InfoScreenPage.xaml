@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Frontend.Views"
              xmlns:model="clr-namespace:Frontend.ViewModels" x:DataType="model:IntroductionViewModel"
-                x:Class="Frontend.Views.InfoScreenPage"
-             Title="{Binding Title}">
+                x:Class="Frontend.Views.InfoScreenPage">
 
-    <ContentPage.Content>
+    <!--<ContentPage.Content>
         <CollectionView x:Name="collectionView" ItemTemplate="{StaticResource InfoScreenDataTemplateSelector}"
                         ItemsSource="{Binding DisplayObjects}"
                         x:FieldModifier="Public"/>
-    </ContentPage.Content>
+    </ContentPage.Content>-->
 
     <ContentPage.Resources>
         <ResourceDictionary>

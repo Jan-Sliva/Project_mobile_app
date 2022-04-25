@@ -15,11 +15,14 @@ namespace Frontend.Views
         public InfoScreenPage(InfoScreenViewModel viewModel)
         {
             Init(viewModel);
+            this.SetBinding(TitleProperty, "Title");
+            Content = new CollectionView() {ItemsSource = viewModel.DisplayObjects,
+                ItemTemplate = new InfoScreenDataTemplateSelector()};
             InitializeComponent();
 
         }
     }
-
+                                                    
     public class InfoScreenDataTemplateSelector : DataTemplateSelector
     {
         public DataTemplate TextTemplate { get; set; }

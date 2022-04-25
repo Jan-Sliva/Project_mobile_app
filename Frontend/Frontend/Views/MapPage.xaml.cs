@@ -12,6 +12,7 @@ using Xamarin.Forms.Maps;
 using Frontend.Services;
 using System.Threading;
 using Frontend.Resources;
+using Frontend.Smart;
 
 namespace Frontend.Views
 {
@@ -21,6 +22,9 @@ namespace Frontend.Views
         public MapPage(MapViewModel viewModel)
         {
             Init(viewModel);
+            this.SetBinding(TitleProperty, "Title");
+            new SmartMap() { MapType = MapResources.TypoOfMap, IsShowingUser = MapResources.IsShowingUser, 
+                             ItemsSource = viewModel.PinViewModels, ItemTemplate = PinTemplate };
             InitializeComponent();
         }
     }
