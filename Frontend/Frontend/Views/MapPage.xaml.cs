@@ -28,14 +28,12 @@ namespace Frontend.Views
 
             MapSpan mapSpan = new MapSpan(new Position(), MapResources.InitialFocusLatitude, MapResources.InitialFocusLongitude);
 
-            var map = new SmartMap(mapSpan)
+            var map = new SmartMap(mapSpan, viewModel.PinViewModels)
             {
                 MapType = MapResources.TypoOfMap,
-                IsShowingUser = MapResources.IsShowingUser
+                IsShowingUser = MapResources.IsShowingUser,
             };
-
-            map.SetBinding(SmartMap.SmartPinsProperty, "PinViewModels");
-
+             
             Content = map;
 
         }
