@@ -64,12 +64,12 @@ namespace Frontend.ViewModels
 
         protected override void OnPropertyChanged(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
-
             if (propertyName == nameof(State))
             {
                 UpdateState();
             }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         private void UpdateState()

@@ -116,7 +116,7 @@ namespace Frontend.Services
             {
                 if (_requirementValue == value) return;
                 _requirementValue = value;
-                if (_requirementValue > RequierementToUnlock)
+                if (_requirementValue >= RequierementToUnlock)
                 {
                     State = StopState.UNLOCKED;
                     _requirementValue = 0;

@@ -41,16 +41,17 @@ namespace Frontend.ViewModels
 
         protected override void OnPropertyChanged(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(Title))
             {
                 UpdateTitle();
             }
-            else if(propertyName == nameof(IconFileName))
+            else if (propertyName == nameof(IconFileName))
             {
                 UpdateIcon();
             }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         public void UpdateTitle()

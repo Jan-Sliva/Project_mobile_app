@@ -27,12 +27,13 @@ namespace Frontend.ViewModels
 
         protected override void OnPropertyChanged(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(IsDone))
             {
                 if (!_isDone) EnteredPassword = "";
             }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         public event ConfirmedPasswordEventHandler ConfirmedPasswordEvent;

@@ -35,12 +35,13 @@ namespace Frontend.ViewModels
 
         protected override void OnPropertyChanged(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(IsChosen))
             {
                 OnCheckBoxChanged();
             }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         public void OnCheckBoxChanged()

@@ -40,13 +40,14 @@ namespace Frontend.ViewModels
 
         protected override void OnPropertyChanged(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
 
             if (propertyName == nameof(State))
             {
                 UpdateState(_state, _lastState);
                 _lastState = _state;
             }
+
+            base.OnPropertyChanged(propertyName);
         }
 
         private void UpdateState(StopDisplayState newState, StopDisplayState lastState)

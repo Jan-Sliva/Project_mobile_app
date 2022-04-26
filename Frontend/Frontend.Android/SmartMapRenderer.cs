@@ -13,6 +13,7 @@ using NativeCircle = Android.Gms.Maps.Model.Circle;
 using Frontend.ViewModels;
 using Frontend.Smart;
 using Xamarin.Forms.Platform.Android;
+using System.Linq;
 
 [assembly: ExportRenderer(typeof(SmartMap), typeof(SmartMapRenderer))]
 namespace CustomRenderer.Droid
@@ -21,6 +22,8 @@ namespace CustomRenderer.Droid
     {
         private List<Marker> markers;
         private List<NativeCircle> nativeCircles;
+
+        private SmartPin[] oldPins = new SmartPin[0];
 
         public SmartMapRenderer(Context context) : base(context)
         {
@@ -31,8 +34,11 @@ namespace CustomRenderer.Droid
             base.OnElementPropertyChanged(sender, e);
             if (this.Element == null)
                 return;
-            if (e.PropertyName == SmartMap.SmartPinsProperty.PropertyName)
+            if (!((SmartMap)this.Element).SmartPins.ToArray().SequenceEqual(oldPins))
             {
+
+                oldPins = new SmartPin[((SmartMap)this.Element).SmartPins.Count];
+                ((SmartMap)this.Element).SmartPins.CopyTo(oldPins);
                 if (markers != null)
                 {
                     if (markers.Count > 0)
@@ -52,8 +58,11 @@ namespace CustomRenderer.Droid
             markers = new List<Marker>();
             nativeCircles = new List<NativeCircle>();
 
-            if (((SmartMap)this.Element).SmartPins == null)
+            if (((SmartMap)this.Element).SmartPins == null || NativeMap == null)
+            {
+                oldPins = new SmartPin[0];
                 return;
+            }
             foreach (var smartPin in ((SmartMap)this.Element).SmartPins)
             {
                 var marker = new MarkerOptions();
